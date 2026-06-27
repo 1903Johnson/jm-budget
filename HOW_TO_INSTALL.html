@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>JM Budget — How to Install</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#f0f2f8;color:#1c1c2e;padding-bottom:40px}
+.hero{background:linear-gradient(135deg,#1a237e,#283593);color:#fff;padding:32px 20px 28px;text-align:center}
+.hero h1{font-size:24px;font-weight:800;margin-bottom:6px}
+.hero p{font-size:13px;opacity:.75;line-height:1.5}
+.gold{color:#f9a825}
+.section{margin:20px 16px 0}
+.section h2{font-size:13px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.method-card{background:#fff;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(26,35,126,.08)}
+.method-card h3{font-size:16px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.method-card .sub{font-size:11px;color:#6b7280;margin-bottom:16px}
+.badge{background:#e8f5e9;color:#2e7d32;font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px}
+.badge.blue{background:#e8eaf6;color:#1a237e}
+.step-list{display:flex;flex-direction:column;gap:12px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.stepn{width:28px;height:28px;border-radius:50%;background:#1a237e;color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-text{flex:1;font-size:13px;line-height:1.6}
+.step-text strong{color:#1a237e}
+.step-text code{background:#f0f2f8;padding:2px 6px;border-radius:5px;font-size:12px;font-family:monospace}
+.highlight-box{background:#fff8e1;border-left:4px solid #f9a825;border-radius:0 10px 10px 0;padding:12px 14px;margin:14px 0;font-size:12px;line-height:1.6;color:#5d4037}
+.highlight-box strong{color:#e65100}
+.url-box{background:#1a237e;color:#fff;border-radius:10px;padding:12px 14px;font-size:13px;font-weight:600;text-align:center;margin:12px 0;word-break:break-all}
+.divider{height:1px;background:#e2e8f0;margin:14px 0}
+.tip{background:#e8eaf6;border-radius:10px;padding:12px 14px;font-size:12px;color:#1a237e;line-height:1.6;margin-top:12px}
+.tip strong{font-weight:700}
+.btn-link{display:block;background:linear-gradient(135deg,#1a237e,#283593);color:#fff;text-align:center;padding:14px;border-radius:12px;font-size:15px;font-weight:800;text-decoration:none;margin-top:14px;box-shadow:0 4px 12px rgba(26,35,126,.3)}
+.netlify-btn{background:linear-gradient(135deg,#00ad9f,#00C7B7);margin-top:8px}
+.os-tabs{display:flex;gap:6px;margin-bottom:14px}
+.ostab{flex:1;padding:8px;border-radius:10px;border:2px solid #e2e8f0;background:#f0f2f8;font-size:12px;font-weight:700;color:#6b7280;text-align:center;cursor:pointer}
+.ostab.active{background:#1a237e;color:#fff;border-color:#1a237e}
+.os-content{display:none}.os-content.active{display:block}
+.important{background:#ffebee;border-left:4px solid #c62828;border-radius:0 10px 10px 0;padding:12px 14px;font-size:12px;color:#b71c1c;line-height:1.6;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>Johnson &amp; Melba<br/><span class="gold">Budget App</span></h1>
+  <p>How to install the app on your phone<br/>🇰🇼 Kuwait &amp; 🇮🇳 India</p>
+</div>
+
+<div class="section">
+  <div class="important">
+    ⚠️ <strong>Why can't I install directly?</strong><br/>
+    PWA apps must be served over <strong>HTTPS</strong> (a secure website). An HTML file opened from your phone's storage won't work. You need to host it online first — it's free and takes 3 minutes.
+  </div>
+
+  <h2>Step 1 — Host the App Online (Free)</h2>
+
+  <div class="method-card">
+    <h3>🚀 Method A — Netlify Drop <span class="badge">Easiest · Recommended</span></h3>
+    <p class="sub">No account needed. Drag and drop. Done in 60 seconds.</p>
+    <div class="step-list">
+      <div class="step"><div class="stepn">1</div><div class="step-text">On your <strong>computer</strong>, unzip the file <code>JM_Budget_App_v2.zip</code> — you get a folder called <code>jmapp</code></div></div>
+      <div class="step"><div class="stepn">2</div><div class="step-text">Open <strong>netlify.com/drop</strong> in Chrome on your computer</div></div>
+      <div class="step"><div class="stepn">3</div><div class="step-text">Drag the entire <code>jmapp</code> folder into the dotted drop zone on that page</div></div>
+      <div class="step"><div class="stepn">4</div><div class="step-text">Netlify gives you a free HTTPS link like:<br/><div class="url-box">https://magical-name-123456.netlify.app</div></div></div>
+      <div class="step"><div class="stepn">5</div><div class="step-text">Open that link on <strong>both phones</strong> — then follow Step 2 below</div></div>
+    </div>
+    <a href="https://app.netlify.com/drop" class="btn-link netlify-btn" target="_blank">Open Netlify Drop →</a>
+  </div>
+
+  <div class="method-card">
+    <h3>🔥 Method B — Firebase Hosting <span class="badge blue">Best for sync users</span></h3>
+    <p class="sub">If you're already setting up Firebase for real-time sync, host here too.</p>
+    <div class="step-list">
+      <div class="step"><div class="stepn">1</div><div class="step-text">Install Node.js from <strong>nodejs.org</strong> on your computer</div></div>
+      <div class="step"><div class="stepn">2</div><div class="step-text">Open Terminal / Command Prompt and run:<br/><code>npm install -g firebase-tools</code></div></div>
+      <div class="step"><div class="stepn">3</div><div class="step-text">Run <code>firebase login</code> → sign in with your Google account</div></div>
+      <div class="step"><div class="stepn">4</div><div class="step-text">Go into the jmapp folder: <code>cd jmapp</code></div></div>
+      <div class="step"><div class="stepn">5</div><div class="step-text">Run <code>firebase init hosting</code> → select your JMBudget project → set public directory to <code>.</code> (dot) → No to SPA rewrite</div></div>
+      <div class="step"><div class="stepn">6</div><div class="step-text">Run <code>firebase deploy</code> → your app is live at <code>yourproject.web.app</code></div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h2>Step 2 — Install on Android &amp; iPhone</h2>
+
+  <div class="method-card">
+    <div class="os-tabs">
+      <div class="ostab active" onclick="switchOS('android',this)">🤖 Android</div>
+      <div class="ostab" onclick="switchOS('ios',this)">🍎 iPhone</div>
+    </div>
+
+    <div class="os-content active" id="os-android">
+      <div class="step-list">
+        <div class="step"><div class="stepn">1</div><div class="step-text">Open <strong>Google Chrome</strong> on your Android phone</div></div>
+        <div class="step"><div class="stepn">2</div><div class="step-text">Go to your Netlify / Firebase URL (the HTTPS link from Step 1)</div></div>
+        <div class="step"><div class="stepn">3</div><div class="step-text">Wait a few seconds — Chrome will show an <strong>install banner</strong> at the bottom saying "Add JM Budget to Home screen" — tap it</div></div>
+        <div class="step"><div class="stepn">4</div><div class="step-text"><strong>If no banner appears:</strong> Tap the 3-dot menu ⋮ in top right → tap <strong>"Add to Home screen"</strong> → tap Add</div></div>
+        <div class="step"><div class="stepn">5</div><div class="step-text">The app appears on your home screen with the blue <strong>J&amp;M</strong> icon — tap it to open like a real app!</div></div>
+      </div>
+      <div class="tip">✅ <strong>Both Johnson and Melba</strong> should open the same URL and install it. Once Firebase is connected, any entry either of you makes appears on the other phone within seconds.</div>
+    </div>
+
+    <div class="os-content" id="os-ios">
+      <div class="step-list">
+        <div class="step"><div class="stepn">1</div><div class="step-text">Open <strong>Safari</strong> on your iPhone (must be Safari, not Chrome)</div></div>
+        <div class="step"><div class="stepn">2</div><div class="step-text">Go to your Netlify / Firebase URL (the HTTPS link from Step 1)</div></div>
+        <div class="step"><div class="stepn">3</div><div class="step-text">Tap the <strong>Share button</strong> at the bottom of Safari (the square with an arrow pointing up ↑)</div></div>
+        <div class="step"><div class="stepn">4</div><div class="step-text">Scroll down and tap <strong>"Add to Home Screen"</strong></div></div>
+        <div class="step"><div class="stepn">5</div><div class="step-text">Change the name to <strong>"JM Budget"</strong> if you want, then tap <strong>Add</strong></div></div>
+        <div class="step"><div class="stepn">6</div><div class="step-text">The blue J&amp;M icon appears on your home screen — it opens full screen like a native app!</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <strong>💡 Summary in one line:</strong><br/>
+    Drag the <code>jmapp</code> folder to <strong>netlify.com/drop</strong> on your computer → open the free HTTPS link on both phones → tap "Add to Home Screen" → done! ✅
+  </div>
+</div>
+
+<script>
+function switchOS(os, btn) {
+  document.querySelectorAll('.ostab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.os-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('os-' + os).classList.add('active');
+}
+</script>
+</body>
+</html>
