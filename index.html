@@ -270,6 +270,19 @@ body::after{
 .edit-saved-row input{flex:1;padding:9px 12px;border:1px solid var(--GBOR2);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;background:var(--GLASS2);color:#fff;outline:none;-webkit-appearance:none}
 .edit-saved-row input::placeholder{color:var(--TXT3)}
 .edit-saved-row button{padding:9px 12px;background:rgba(255,255,255,.1);border:1px solid var(--GBOR2);border-radius:10px;color:var(--GOLD);font-weight:700;font-size:12px;cursor:pointer}
+/* Edit saved amount card */
+.edit-amt-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px;margin-top:12px}
+.edit-amt-card .eac-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.edit-amt-card .eac-title{font-size:11px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px}
+.edit-amt-card .eac-current{font-size:13px;font-weight:800;color:var(--GOLD)}
+.edit-amt-card .eac-row{display:flex;gap:8px;align-items:center}
+.edit-amt-card input{flex:1;padding:11px 13px;border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;background:rgba(255,255,255,0.08);color:#fff;outline:none;-webkit-appearance:none}
+.edit-amt-card input:focus{border-color:var(--GOLD);background:rgba(255,255,255,0.12)}
+.edit-amt-card input::placeholder{color:rgba(255,255,255,0.3);font-size:13px;font-weight:400}
+.edit-amt-card .eac-btn{padding:11px 16px;border-radius:10px;border:none;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.edit-amt-card .eac-btn.house{background:linear-gradient(135deg,rgba(124,77,255,.8),rgba(99,102,241,.8));color:#fff}
+.edit-amt-card .eac-btn.car{background:linear-gradient(135deg,rgba(249,168,37,.85),rgba(239,108,0,.75));color:#fff}
+.edit-amt-card .eac-note{font-size:10px;color:var(--TXT3);margin-top:8px;line-height:1.5}
 .gauge-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 0 0}
 .gauge-item{text-align:center}
 .gauge-lbl{font-size:10px;color:var(--TXT3);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
@@ -518,10 +531,18 @@ body::after{
       <div class="goal-input-area">
         <label>Add Lump-Sum to House Fund</label>
         <div class="ginrow"><input type="number" id="h-add-inp" placeholder="Amount (₹)" inputmode="decimal"/><button class="gupdbt" onclick="addGoal('house')">+ Add</button></div>
-        <label style="margin-top:12px">Edit Total Saved Amount</label>
-        <div class="edit-saved-row">
-          <input type="number" id="h-edit-inp" placeholder="Set exact saved amount (₹)" inputmode="decimal"/>
-          <button onclick="editSaved('house')">✏️ Set</button>
+        <div class="edit-amt-card">
+          <div class="eac-header">
+            <span class="eac-title">✏️ Edit Total Saved Amount</span>
+            <span class="eac-current" id="h-saved-display">Current: ₹0</span>
+          </div>
+          <div class="eac-row">
+            <input type="number" id="h-edit-inp" placeholder="Enter new total saved amount" inputmode="decimal"/>
+            <button class="eac-btn house" onclick="editSaved('house')">
+              <span class="material-icons-round" style="font-size:16px">save</span>Save
+            </button>
+          </div>
+          <div class="eac-note">⚠ This sets the exact total. Use "+ Add" above to add a new amount on top of the existing total.</div>
         </div>
         <div class="goal-tip">💡 Categorise savings as "House Fund – Chennai" in Entries tab to auto-track here.</div>
       </div>
@@ -551,10 +572,18 @@ body::after{
         </div>
         <label>Add Lump-Sum to Car Fund</label>
         <div class="ginrow"><input type="number" id="c-add-inp" placeholder="Amount (₹)" inputmode="decimal"/><button class="gupdbt gold" onclick="addGoal('car')">+ Add</button></div>
-        <label style="margin-top:12px">Edit Total Saved Amount</label>
-        <div class="edit-saved-row">
-          <input type="number" id="c-edit-inp" placeholder="Set exact saved amount (₹)" inputmode="decimal"/>
-          <button onclick="editSaved('car')">✏️ Set</button>
+        <div class="edit-amt-card">
+          <div class="eac-header">
+            <span class="eac-title">✏️ Edit Total Saved Amount</span>
+            <span class="eac-current" id="c-saved-display">Current: ₹0</span>
+          </div>
+          <div class="eac-row">
+            <input type="number" id="c-edit-inp" placeholder="Enter new total saved amount" inputmode="decimal"/>
+            <button class="eac-btn car" onclick="editSaved('car')">
+              <span class="material-icons-round" style="font-size:16px">save</span>Save
+            </button>
+          </div>
+          <div class="eac-note">⚠ This sets the exact total. Use "+ Add" above to add a new amount on top of the existing total.</div>
         </div>
       </div>
     </div>
@@ -597,11 +626,11 @@ body::after{
       <div class="step"><div class="stepn">2</div><div>Add App → Web → Register → copy firebaseConfig values</div></div>
       <div class="step"><div class="stepn">3</div><div>Realtime Database → Create → Start in <strong>test mode</strong></div></div>
       <div class="step"><div class="stepn">4</div><div>Paste below → tap Connect</div></div>
-      <div class="cfg-f"><label>API Key</label><input id="cak" placeholder="AIzaSy…"/></div>
-      <div class="cfg-f"><label>Auth Domain</label><input id="cad" placeholder="project.firebaseapp.com"/></div>
-      <div class="cfg-f"><label>Database URL</label><input id="cdu" placeholder="https://project-rtdb.firebaseio.com"/></div>
-      <div class="cfg-f"><label>Project ID</label><input id="cpi" placeholder="your-project-id"/></div>
-      <div class="cfg-f"><label>App ID</label><input id="cai" placeholder="1:123:web:abc…"/></div>
+      <div class="cfg-f"><label>API Key</label><input id="cak" value="AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY"/></div>
+      <div class="cfg-f"><label>Auth Domain</label><input id="cad" value="jmbudget-be846.firebaseapp.com"/></div>
+      <div class="cfg-f"><label>Database URL</label><input id="cdu" value="https://jmbudget-be846-default-rtdb.firebaseio.com"/></div>
+      <div class="cfg-f"><label>Project ID</label><input id="cpi" value="jmbudget-be846"/></div>
+      <div class="cfg-f"><label>App ID</label><input id="cai" value="1:765462801827:web:72ada08c6f577983793e16"/></div>
       <button class="fbbtn" onclick="connectFB()">🔥 Connect Firebase</button>
       <div class="fb-status" id="fb-status"></div>
     </div>
@@ -1029,6 +1058,9 @@ function renderGoals(){
   set('c-saved',fmt(cs));set('c-rem',ct>0?fmt(Math.max(0,ct-cs)):'—');set('c-monthly',ct>0?fmt(Math.max(0,ct-cs)/6):'—');
   set('car-tgt-lbl',ct>0?'Target: '+fmt(ct)+' · This year':'Set your car target below');
   if(ct>0&&document.getElementById('car-tgt-inp'))document.getElementById('car-tgt-inp').value=ct;
+  // Update "Current" labels in edit cards
+  const hsd=document.getElementById('h-saved-display');if(hsd)hsd.textContent='Current: '+fmt(hs);
+  const csd=document.getElementById('c-saved-display');if(csd)csd.textContent='Current: '+fmt(cs);
   // Update home goal mini cards
   set('hm-pct',hp.toFixed(1)+'%');if(document.getElementById('hm-bar'))document.getElementById('hm-bar').style.width=hp+'%';
   set('hm-sub',fmt(hs)+' saved of '+fmt(ht));
@@ -1065,11 +1097,15 @@ function addGoal(which){
 }
 function editSaved(which){
   const inp=document.getElementById(which==='house'?'h-edit-inp':'c-edit-inp');
-  const amt=parseFloat(inp.value);if(!amt||amt<0){toast('⚠ Enter a valid amount');return;}
+  const raw=inp.value.trim();
+  if(raw===''){toast('⚠ Please enter an amount');return;}
+  const amt=parseFloat(raw);
+  if(isNaN(amt)||amt<0){toast('⚠ Enter a valid amount (0 or more)');return;}
   const g=getGoals();
   if(which==='house')g.houseSaved=amt;else g.carSaved=amt;
-  fbSet('goals',g);inp.value='';renderGoals();drawGoalCharts();renderHome();
-  toast('✅ '+(which==='house'?'House':'Car')+' saved amount set to '+fmt(amt));
+  fbSet('goals',g);inp.value='';
+  renderGoals();drawGoalCharts();renderHome();
+  toast('✅ '+(which==='house'?'House':'Car')+' saved amount updated to '+fmt(amt));
 }
 function saveCarTarget(){
   const t=parseFloat(v('car-tgt-inp'));if(!t||t<=0){toast('⚠ Enter a valid target');return;}
@@ -1167,10 +1203,16 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
   if(ys){for(let y=2026;y<=2028;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===S.entY)o.selected=true;ys.appendChild(o);}}
   if(ms){MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===S.entM)o.selected=true;ms.appendChild(o);});}
 
-  // Restore Firebase config
-  try{const cfg=JSON.parse(localStorage.getItem('jmFB')||'null');
-    if(cfg&&cfg.apiKey){['cak','cad','cdu','cpi','cai'].forEach((id,i)=>{const keys=['apiKey','authDomain','databaseURL','projectId','appId'];const el=document.getElementById(id);if(el)el.value=cfg[keys[i]]||'';});loadFB(cfg);}
-  }catch(e){}
+  // Auto-connect Firebase with pre-configured credentials
+  const DEFAULT_FB = {
+    apiKey:      "AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY",
+    authDomain:  "jmbudget-be846.firebaseapp.com",
+    databaseURL: "https://jmbudget-be846-default-rtdb.firebaseio.com",
+    projectId:   "jmbudget-be846",
+    appId:       "1:765462801827:web:72ada08c6f577983793e16",
+  };
+  localStorage.setItem('jmFB', JSON.stringify(DEFAULT_FB));
+  loadFB(DEFAULT_FB);
 
   document.getElementById('udisp').textContent=S.user+(S.user==='Johnson'?' (Kuwait 🇰🇼)':' (India 🇮🇳)');
 
