@@ -102,6 +102,27 @@ body.light::before{background:radial-gradient(circle,rgba(99,102,241,0.06) 0%,tr
 body.light::after{background:radial-gradient(circle,rgba(249,168,37,0.04) 0%,transparent 70%)}
 /* Privacy mask */
 .privacy-mask{filter:blur(6px);user-select:none;transition:filter .3s}
+/* Currency selector */
+.curr-seg{display:flex;gap:6px;margin-bottom:12px}
+.curr-btn{flex:1;padding:9px 8px;border-radius:10px;border:1.5px solid var(--GBOR2);background:var(--GLASS);color:var(--TXT2);font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px}
+.curr-btn.active.inr{border-color:#81c784;background:rgba(76,175,80,.15);color:#81c784}
+.curr-btn.active.kwd{border-color:#f9a825;background:rgba(249,168,37,.15);color:#f9a825}
+.kwd-preview{background:rgba(249,168,37,.08);border:1px solid rgba(249,168,37,.25);border-radius:10px;padding:10px 13px;margin-bottom:12px;display:none}
+.kwd-preview.show{display:block}
+.kwd-preview .kp-row{display:flex;align-items:center;justify-content:space-between}
+.kwd-preview .kp-kwd{font-size:15px;font-weight:800;color:#f9a825}
+.kwd-preview .kp-arrow{color:var(--TXT3);font-size:13px;margin:0 6px}
+.kwd-preview .kp-inr{font-size:15px;font-weight:800;color:#81c784}
+.kwd-preview .kp-rate{font-size:10px;color:var(--TXT3);margin-top:4px}
+.kwd-rate-bar{background:rgba(249,168,37,.07);border:1px solid rgba(249,168,37,.18);border-radius:8px;padding:7px 12px;margin:8px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--TXT3)}
+.kwd-rate-bar .krb-flag{font-size:16px}
+.kwd-rate-bar .krb-rate{font-weight:700;color:#f9a825;font-size:12px}
+.kwd-rate-bar .krb-date{font-size:10px;color:var(--TXT3);margin-left:auto}
+/* KWD sub-amount in cards and rows */
+.kwd-sub{font-size:10px;color:#f9a825;opacity:.8;margin-top:2px;font-weight:600;font-style:italic}
+.kwd-sub.masked{filter:blur(5px)}
+.kpi-kwd{font-size:10px;color:#f9a825;opacity:.75;margin-top:1px;font-weight:600}
+.kpi-kwd.masked{filter:blur(5px)}
 
 /* Animated background orbs */
 body::before,body::after{
@@ -469,11 +490,11 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
 <div class="hdr">
   <div class="hdr-inner">
     <div class="hdr-left">
-      <div class="hdr-logo" style="background:none;border:none;padding:0;box-shadow:none">
-        <svg viewBox="0 0 80 80" width="38" height="38" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="40" cy="40" r="37" fill="#f5f0e8" stroke="#c9a84c" stroke-width="1.2"/>
-          <circle cx="40" cy="40" r="32" fill="none" stroke="#c9a84c" stroke-width="0.6"/>
-          <text x="40" y="52" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="26" fill="#7a5c1e" font-weight="400" letter-spacing="1">JM</text>
+      <div class="hdr-logo" style="background:none;border:none;padding:1px;box-shadow:none;width:42px;height:42px">
+        <svg viewBox="0 0 100 100" width="42" height="42" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="48" fill="#f7f2e8" stroke="#c9a84c" stroke-width="1.8"/>
+          <circle cx="50" cy="50" r="41" fill="none" stroke="#c9a84c" stroke-width="0.9"/>
+          <text x="50" y="64" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="34" fill="#7a5418" font-weight="400" letter-spacing="3">JM</text>
         </svg>
       </div>
       <div class="hdr-title"><h2>J &amp; M Budget</h2><span>Family Finance Tracker</span></div>
@@ -511,18 +532,27 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     <input type="file" id="familyPhotoInput" accept="image/*" onchange="handlePhotoUpload(event)"/>
   </div>
 
+  <!-- KWD Rate Bar -->
+  <div class="kwd-rate-bar" id="kwdRateBar">
+    <span class="krb-flag">🇰🇼</span>
+    <span>1 KWD =</span>
+    <span class="krb-rate" id="kwdRateDisplay">loading…</span>
+    <span>INR</span>
+    <span class="krb-date" id="kwdRateDate"></span>
+    <button onclick="fetchKWDRate(true)" style="background:none;border:none;color:var(--GOLD);cursor:pointer;font-size:11px;padding:0;margin-left:4px" title="Refresh rate">🔄</button>
+  </div>
   <!-- Jeremiah 17:7-8 verse -->
-  <div class="verse-banner" style="margin-top:12px">
+  <div class="verse-banner" style="margin-top:8px">
     "But blessed is the one who trusts in the Lord, whose confidence is in him. They will be like a tree planted by the water that sends out its roots by the stream."
     <span class="vref">— Jeremiah 17:7-8</span>
   </div>
 
   <div class="sec-lbl">This Month Overview <span id="home-month-lbl" style="color:var(--GOLD)"></span></div>
   <div class="kpi-grid">
-    <div class="kpi glass2 inc"><div class="kpi-ico">💰</div><div class="kpi-lbl">Income</div><div class="kpi-val inc" id="k-inc">₹0</div><div class="kpi-sub" id="k-inc-sub">0 entries</div></div>
-    <div class="kpi glass2 exp"><div class="kpi-ico">💸</div><div class="kpi-lbl">Expenses</div><div class="kpi-val exp" id="k-exp">₹0</div><div class="kpi-sub" id="k-exp-sub">0 entries</div></div>
-    <div class="kpi glass2 sav"><div class="kpi-ico">🏦</div><div class="kpi-lbl">Saved/Invested</div><div class="kpi-val sav" id="k-sav">₹0</div><div class="kpi-sub" id="k-sav-sub">0 entries</div></div>
-    <div class="kpi glass2 bal"><div class="kpi-ico">📊</div><div class="kpi-lbl">Net Balance</div><div class="kpi-val bal" id="k-bal">₹0</div><div class="kpi-sub">Income − Expenses</div></div>
+    <div class="kpi glass2 inc"><div class="kpi-ico">💰</div><div class="kpi-lbl">Income</div><div class="kpi-val inc" id="k-inc">₹0</div><div class="kpi-kwd" id="k-inc-kwd"></div><div class="kpi-sub" id="k-inc-sub">0 entries</div></div>
+    <div class="kpi glass2 exp"><div class="kpi-ico">💸</div><div class="kpi-lbl">Expenses</div><div class="kpi-val exp" id="k-exp">₹0</div><div class="kpi-kwd" id="k-exp-kwd"></div><div class="kpi-sub" id="k-exp-sub">0 entries</div></div>
+    <div class="kpi glass2 sav"><div class="kpi-ico">🏦</div><div class="kpi-lbl">Saved/Invested</div><div class="kpi-val sav" id="k-sav">₹0</div><div class="kpi-kwd" id="k-sav-kwd"></div><div class="kpi-sub" id="k-sav-sub">0 entries</div></div>
+    <div class="kpi glass2 bal"><div class="kpi-ico">📊</div><div class="kpi-lbl">Net Balance</div><div class="kpi-val bal" id="k-bal">₹0</div><div class="kpi-kwd" id="k-bal-kwd"></div><div class="kpi-sub">Income − Expenses</div></div>
     <div class="kpi glass2 dbt"><div class="kpi-ico">📋</div><div class="kpi-lbl">Net Debt Owed</div><div class="kpi-val dbt" id="k-dbt">₹0</div><div class="kpi-sub" id="k-dbt-sub">received − returned</div></div>
     <div class="kpi glass2 inv"><div class="kpi-ico">📈</div><div class="kpi-lbl">Savings Rate</div><div class="kpi-val inv" id="k-rate">0%</div><div class="kpi-sub">of income saved</div></div>
   </div>
@@ -788,12 +818,29 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
         <button class="tseg" id="ts-sav" onclick="setMoType('sav')">🏦 Savings</button>
         <button class="tseg" id="ts-dbt" onclick="setMoType('dbt')">📋 Debt</button>
       </div>
-      <div class="fld"><label>Amount (₹)</label><input type="number" class="big-amt" id="fa" placeholder="0.00" inputmode="decimal"/></div>
+      <!-- Currency selector (only shown for Boss/Johnson entries) -->
+      <div class="curr-seg" id="curr-seg">
+        <button class="curr-btn active inr" id="curr-inr" onclick="setCurr('INR')">₹ Indian Rupee (INR)</button>
+        <button class="curr-btn kwd" id="curr-kwd" onclick="setCurr('KWD')">🇰🇼 Kuwaiti Dinar (KWD)</button>
+      </div>
+      <!-- KWD live conversion preview -->
+      <div class="kwd-preview" id="kwdPreview">
+        <div class="kp-row">
+          <span class="kp-kwd" id="kp-kwd-val">KD 0</span>
+          <span class="kp-arrow">→</span>
+          <span class="kp-inr" id="kp-inr-val">₹0</span>
+        </div>
+        <div class="kp-rate" id="kp-rate-lbl">Rate: 1 KWD = loading…</div>
+      </div>
+      <div class="fld">
+        <label id="fa-label">Amount (₹ INR)</label>
+        <input type="number" class="big-amt" id="fa" placeholder="0.00" inputmode="decimal" oninput="onAmountInput()"/>
+      </div>
       <div class="fld"><label>Description</label><input type="text" id="fd" placeholder="e.g. Salary, Rent, Gold savings…"/></div>
       <div class="fld"><label>Category</label><select id="fcat"></select></div>
       <div class="frow">
         <div class="fld"><label>Date</label><input type="date" id="fdate"/></div>
-        <div class="fld"><label>By</label><select id="fby"><option value="Boss">Boss (Johnson)</option><option value="Darling">Darling (Melba)</option><option value="Both">Both</option></select></div>
+        <div class="fld"><label>By</label><select id="fby" onchange="onByChange()"><option value="Boss">Boss (Johnson)</option><option value="Darling">Darling (Melba)</option><option value="Both">Both</option></select></div>
       </div>
       <!-- Debt extra fields -->
       <div id="dbt-extra" style="display:none">
@@ -839,7 +886,71 @@ const CATS={
 const ICONS={exp:'shopping_cart',inc:'payments',sav:'savings',dbt:'account_balance'};
 
 const NOW=new Date();
-let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson',privacy:false,darkMode:localStorage.getItem('jmTheme')!=='light'};
+let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson',privacy:false,darkMode:localStorage.getItem('jmTheme')!=='light',currency:'INR'};
+
+// ── KWD / INR Currency ──
+let kwdRate = parseFloat(localStorage.getItem('jmKWDRate')) || 275.0;
+const KWD_FALLBACK = 275.0;
+
+async function fetchKWDRate(force=false){
+  const stored = localStorage.getItem('jmKWDRate');
+  const storedDate = localStorage.getItem('jmKWDRateDate');
+  const today = new Date().toISOString().split('T')[0];
+  if(!force && stored && storedDate===today){ kwdRate=parseFloat(stored); updateRateUI(); return; }
+  try{
+    const res = await fetch('https://api.exchangerate-api.com/v4/latest/KWD');
+    const data = await res.json();
+    kwdRate = parseFloat(data.rates.INR.toFixed(2));
+    localStorage.setItem('jmKWDRate', kwdRate);
+    localStorage.setItem('jmKWDRateDate', today);
+    updateRateUI();
+    toast('🔄 Rate updated: 1 KWD = ₹'+kwdRate);
+  }catch(e){
+    // Try backup API
+    try{
+      const r2 = await fetch('https://open.er-api.com/v6/latest/KWD');
+      const d2 = await r2.json();
+      kwdRate = parseFloat(d2.rates.INR.toFixed(2));
+      localStorage.setItem('jmKWDRate', kwdRate);
+      localStorage.setItem('jmKWDRateDate', today);
+      updateRateUI();
+    }catch(e2){ kwdRate = parseFloat(stored||KWD_FALLBACK); updateRateUI(); }
+  }
+}
+function updateRateUI(){
+  const el=document.getElementById('kwdRateDisplay'); if(el) el.textContent='₹'+kwdRate;
+  const de=document.getElementById('kwdRateDate');
+  if(de){ const d=localStorage.getItem('jmKWDRateDate');de.textContent=d?'('+d+')':''; }
+  document.getElementById('kp-rate-lbl').textContent='Rate: 1 KWD = ₹'+kwdRate;
+}
+function setCurr(c){
+  S.currency=c;
+  document.getElementById('curr-inr').classList.toggle('active',c==='INR');
+  document.getElementById('curr-kwd').classList.toggle('active',c==='KWD');
+  document.getElementById('curr-inr').classList.toggle('inr',c==='INR');
+  document.getElementById('curr-kwd').classList.toggle('kwd',c==='KWD');
+  document.getElementById('fa-label').textContent = c==='KWD'?'Amount (KD — Kuwaiti Dinar)':'Amount (₹ INR)';
+  document.getElementById('fa').placeholder = c==='KWD'?'0.000':'0.00';
+  document.getElementById('fa').value='';
+  document.getElementById('kwdPreview').classList.remove('show');
+}
+function onByChange(){
+  const by=document.getElementById('fby').value;
+  const seg=document.getElementById('curr-seg');
+  // Only Boss (Johnson) sees KWD option since he's in Kuwait
+  if(by==='Boss'){ seg.style.display='flex'; }
+  else{ seg.style.display='none'; setCurr('INR'); }
+}
+function onAmountInput(){
+  if(S.currency!=='KWD'){ document.getElementById('kwdPreview').classList.remove('show'); return; }
+  const val=parseFloat(document.getElementById('fa').value)||0;
+  if(val<=0){ document.getElementById('kwdPreview').classList.remove('show'); return; }
+  const inr = parseFloat((val*kwdRate).toFixed(2));
+  document.getElementById('kp-kwd-val').textContent='KD '+val.toFixed(3);
+  document.getElementById('kp-inr-val').textContent='₹'+inr.toLocaleString('en-IN');
+  document.getElementById('kwdPreview').classList.add('show');
+}
+function fmtKWD(kwd){ if(!kwd||kwd===0) return ''; return 'KD '+parseFloat(kwd).toFixed(3); }
 let LD={};try{LD=JSON.parse(localStorage.getItem('jmD')||'{}');}catch(e){LD={};}
 let toastT,fbDB=null,charts={};
 let curEntTab='exp';
@@ -939,6 +1050,24 @@ function renderHome(){
   set('k-inc-sub',ni+' entr'+(ni===1?'y':'ies'));
   set('k-exp-sub',ne+' entr'+(ne===1?'y':'ies'));
   set('k-sav-sub',ns+' entr'+(ns===1?'y':'ies'));
+  // KWD sub-totals (Boss/Johnson entries in KWD only)
+  let kwdInc=0,kwdExp=0,kwdSav=0;
+  Object.values(txns).forEach(t=>{
+    if(t.by==='Boss'&&t.kwdAmt){
+      if(t.type==='inc')kwdInc+=t.kwdAmt;
+      else if(t.type==='exp')kwdExp+=t.kwdAmt;
+      else if(t.type==='sav')kwdSav+=t.kwdAmt;
+    }
+  });
+  const pm=S.privacy;
+  const kwdBal=kwdInc-kwdExp;
+  function setKWDEl(id,kwd){
+    const el=document.getElementById(id);if(!el)return;
+    if(kwd>0){el.textContent=pm?'KD ••••':'KD '+kwd.toFixed(3);el.className='kpi-kwd'+(pm?' masked':'');}
+    else{el.textContent='';}
+  }
+  setKWDEl('k-inc-kwd',kwdInc);setKWDEl('k-exp-kwd',kwdExp);setKWDEl('k-sav-kwd',kwdSav);
+  setKWDEl('k-bal-kwd',Math.abs(kwdBal));
   const balEl=document.getElementById('k-bal');
   if(balEl){balEl.textContent=(bal<0?'-':'')+fmt(bal);balEl.style.color=bal<0?'#ef9a9a':'#b388ff';}
   const g=getGoals();
@@ -1113,8 +1242,12 @@ function openAddModal(type){
   set('mo-ttl','Add Entry');
   document.getElementById('fa').value='';document.getElementById('fd').value='';
   document.getElementById('fdate').value=new Date().toISOString().split('T')[0];
-  document.getElementById('fby').value=S.user==='Johnson'?'Boss':'Darling';
+  const byVal=S.user==='Johnson'?'Boss':'Darling';
+  document.getElementById('fby').value=byVal;
   document.getElementById('fret').value='';document.getElementById('fretdate').value='';
+  // Show/hide KWD option
+  document.getElementById('curr-seg').style.display=byVal==='Boss'?'flex':'none';
+  setCurr('INR'); // always default to INR on open
   setMoType(t);
   document.getElementById('addMo').classList.add('active');
   setTimeout(()=>document.getElementById('fa').focus(),300);
@@ -1139,6 +1272,13 @@ function editEntry(id){
   setTimeout(()=>{document.getElementById('fcat').value=tx.cat||'';},50);
   document.getElementById('fret').value=tx.returned||'';
   document.getElementById('fretdate').value=tx.retdate||'';
+  // Restore currency
+  const isBoss=tx.by==='Boss';
+  document.getElementById('curr-seg').style.display=isBoss?'flex':'none';
+  if(tx.kwdAmt&&isBoss){
+    setCurr('KWD');
+    setTimeout(()=>{document.getElementById('fa').value=tx.kwdAmt;onAmountInput();},60);
+  } else { setCurr('INR'); }
   document.getElementById('addMo').classList.add('active');
 }
 function delEntry(id){
@@ -1147,15 +1287,22 @@ function delEntry(id){
   renderEntries();renderHome();toast('Entry deleted');
 }
 function saveEntry(){
-  const amt=parseFloat(v('fa'));const desc=v('fd');
-  if(!amt||amt<=0){toast('⚠ Enter a valid amount');return;}
+  const rawAmt=parseFloat(v('fa'));const desc=v('fd');
+  if(!rawAmt||rawAmt<=0){toast('⚠ Enter a valid amount');return;}
   if(!desc){toast('⚠ Enter a description');return;}
   const id=S.editId||uid();
-  const tx={type:S.moType,amount:amt,desc,cat:document.getElementById('fcat').value,date:v('fdate'),by:v('fby'),ts:Date.now()};
+  let inrAmt=rawAmt, kwdAmt=0;
+  if(S.currency==='KWD'){
+    kwdAmt=rawAmt;
+    inrAmt=parseFloat((rawAmt*kwdRate).toFixed(2));
+  }
+  const tx={type:S.moType,amount:inrAmt,desc,cat:document.getElementById('fcat').value,date:v('fdate'),by:v('fby'),ts:Date.now()};
+  if(kwdAmt>0){tx.kwdAmt=kwdAmt;tx.kwdRate=kwdRate;tx.currency='KWD';}
   if(S.moType==='dbt'){tx.returned=parseFloat(v('fret'))||0;tx.retdate=v('fretdate')||'';}
   fbSet(mkey(S.entY,S.entM)+'/transactions/'+id,tx);
   closeMo('addMo');renderEntries();renderHome();
-  toast(S.editId?'✅ Entry updated':'✅ Entry saved');S.editId=null;
+  const amtLabel=kwdAmt>0?`KD ${kwdAmt.toFixed(3)} → ₹${inrAmt.toLocaleString('en-IN')}`:'₹'+inrAmt.toLocaleString('en-IN');
+  toast(S.editId?'✅ Entry updated':'✅ Saved: '+amtLabel);S.editId=null;
 }
 
 // ── GOALS ──
@@ -1321,7 +1468,10 @@ function togglePrivacy(){
   const btn=document.getElementById('eyeBtn');
   if(btn)btn.innerHTML=`<span class="material-icons-round">${S.privacy?'visibility_off':'visibility'}</span>`;
   renderHome();
-  // Also refresh entries summary
+  // Refresh KWD elements
+  document.querySelectorAll('.kpi-kwd,.kwd-sub').forEach(el=>{
+    if(S.privacy)el.classList.add('masked'); else el.classList.remove('masked');
+  });
   if(S.curPg==='entries')renderEntries();
   toast(S.privacy?'🔒 Amounts hidden':'👁 Amounts visible');
 }
@@ -1429,6 +1579,7 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
     const ldr=document.getElementById('loader');ldr.style.opacity='0';
     setTimeout(()=>ldr.style.display='none',500);
     renderHome();drawHomeCharts();
+    fetchKWDRate(); // fetch live KWD rate on startup
   },4500);
 
   // Apply saved theme
