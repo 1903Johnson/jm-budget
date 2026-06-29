@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- JM Budget App v4.1 — Built June 2026 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -12,11 +13,13 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
+<meta name="app-version" content="4.1"/>
 <link rel="apple-touch-icon" href="icon-192.png"/>
 <title>Johnson &amp; Melba — Family Budget</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 /* ══ GLASSMORPHISM THEME ══ */
 :root{
@@ -41,6 +44,65 @@ body{
   background:linear-gradient(135deg,var(--G1) 0%,var(--G2) 50%,var(--G3) 100%);
   background-attachment:fixed;
 }
+/* ── LIGHT THEME ── */
+body.light{
+  --G1:#e8eaf6;--G2:#c5cae9;--G3:#e3f2fd;
+  --GLASS:rgba(255,255,255,0.65);--GLASS2:rgba(255,255,255,0.8);--GLASS3:rgba(255,255,255,0.92);
+  --GBOR:rgba(0,0,0,0.08);--GBOR2:rgba(0,0,0,0.15);
+  --TXT:#1a1a2e;--TXT2:rgba(0,0,0,0.65);--TXT3:rgba(0,0,0,0.45);
+  --SH:0 4px 20px rgba(26,35,126,0.12);
+}
+body.light .hdr{background:rgba(255,255,255,0.88);border-bottom:1px solid rgba(0,0,0,0.1)}
+body.light .hdr-title h2,body.light .hdr-title span{color:#1a237e}
+body.light .hdr-title span{opacity:.7}
+body.light .ib{background:rgba(26,35,126,0.08);color:#1a237e;border-color:rgba(26,35,126,0.15)}
+body.light .tabs{background:rgba(255,255,255,0.95);border-top-color:rgba(0,0,0,0.08)}
+body.light .tab{color:#bbb}
+body.light .tab.active{color:#1a237e}
+body.light .tab-indicator{background:#1a237e}
+body.light .mo{background:rgba(255,255,255,0.97);border-color:rgba(0,0,0,0.1)}
+body.light .mo-ttl{color:#1a1a2e}
+body.light .mo-hd{border-color:rgba(0,0,0,0.08)}
+body.light .fld label{color:#666}
+body.light .fld input,body.light .fld select{background:#f5f5f5;color:#1a1a2e;border-color:#ddd}
+body.light .type-seg{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08)}
+body.light .tseg.active{background:rgba(255,255,255,0.95)}
+body.light .ent-selectors{background:rgba(255,255,255,0.9);border-color:rgba(0,0,0,0.08)}
+body.light .ent-sel select{background:#fff;color:#1a1a2e;border-color:#ddd}
+body.light .ent-tabs{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08)}
+body.light .et.active{background:rgba(255,255,255,0.95);color:#1a237e}
+body.light .ent-summary-bar{background:rgba(255,255,255,0.6)}
+body.light .verse-banner{background:rgba(249,168,37,0.08);border-color:rgba(249,168,37,0.3);color:#5d4037}
+body.light .ytab{background:rgba(255,255,255,0.7);color:#888;border-color:rgba(0,0,0,0.1)}
+body.light .ytab.active{background:linear-gradient(135deg,#7c4dff,#651fff);color:#fff}
+body.light .setup-card{background:rgba(26,35,126,0.06);border-color:rgba(26,35,126,0.15)}
+body.light .setup-card h3{color:#1a237e}
+body.light .cfg-f input{background:rgba(0,0,0,0.04);color:#1a1a2e;border-color:rgba(0,0,0,0.15)}
+body.light .srow-lbl{color:#1a1a2e}
+body.light .offl{background:#e53935}
+body.light .gauge-single{background:rgba(0,0,0,0.03);border-color:rgba(0,0,0,0.08)}
+body.light .gstat{background:rgba(0,0,0,0.04)}
+body.light .gi-name{color:#1a1a2e}
+body.light .edit-amt-card{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.1)}
+body.light .edit-amt-card input{background:#f5f5f5;color:#1a1a2e;border-color:#ddd}
+body.light .ys-card{border:1px solid rgba(0,0,0,0.08)}
+body.light .milestone-card{border:1px solid rgba(0,0,0,0.06)}
+body.light .ms-row{border-color:rgba(0,0,0,0.06)}
+body.light .ms-name{color:#1a1a2e}
+body.light .ms-sub{color:#888}
+body.light .chart-card{border:1px solid rgba(0,0,0,0.06)}
+body.light .chart-title{color:#444}
+body.light .kpi{border:1px solid rgba(0,0,0,0.06)}
+body.light .kpi-lbl{color:#888}
+body.light .goal-mini{border:1px solid rgba(0,0,0,0.06)}
+body.light .gm-name{color:#1a1a2e}
+body.light .gm-sub{color:#888}
+body.light .photo-family-name{color:#fff}
+body.light::before{background:radial-gradient(circle,rgba(99,102,241,0.06) 0%,transparent 70%)}
+body.light::after{background:radial-gradient(circle,rgba(249,168,37,0.04) 0%,transparent 70%)}
+/* Privacy mask */
+.privacy-mask{filter:blur(6px);user-select:none;transition:filter .3s}
+
 /* Animated background orbs */
 body::before,body::after{
   content:'';position:fixed;border-radius:50%;pointer-events:none;z-index:0;
@@ -197,7 +259,15 @@ body::after{
 .chart-title .ct-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
 .chart-wrap{position:relative;height:180px}
 .chart-wrap.tall{height:220px}
-.chart-wrap.gauge{height:160px}
+.chart-wrap.gauge{height:180px}
+.gauge-row{display:flex;flex-direction:column;gap:12px;padding:4px 0}
+.gauge-single{background:rgba(255,255,255,0.05);border:1px solid var(--GBOR);border-radius:12px;padding:14px;display:flex;align-items:center;gap:16px}
+.gauge-single .gauge-canvas-wrap{width:160px;height:100px;flex-shrink:0;position:relative}
+.gauge-single .gauge-info{flex:1}
+.gauge-single .gi-name{font-size:14px;font-weight:800;color:var(--TXT);margin-bottom:6px}
+.gauge-single .gi-pct{font-size:28px;font-weight:800;margin-bottom:4px}
+.gauge-single .gi-saved{font-size:11px;color:var(--TXT3);margin-bottom:2px}
+.gauge-single .gi-rem{font-size:11px;color:var(--TXT3)}
 
 /* ─── ENTRIES ─── */
 .ent-selectors{
@@ -270,7 +340,20 @@ body::after{
 .edit-saved-row input{flex:1;padding:9px 12px;border:1px solid var(--GBOR2);border-radius:10px;font-size:13px;font-family:'Inter',sans-serif;background:var(--GLASS2);color:#fff;outline:none;-webkit-appearance:none}
 .edit-saved-row input::placeholder{color:var(--TXT3)}
 .edit-saved-row button{padding:9px 12px;background:rgba(255,255,255,.1);border:1px solid var(--GBOR2);border-radius:10px;color:var(--GOLD);font-weight:700;font-size:12px;cursor:pointer}
-.gauge-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 0 0}
+/* Edit saved amount card */
+.edit-amt-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px;margin-top:12px}
+.edit-amt-card .eac-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.edit-amt-card .eac-title{font-size:11px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px}
+.edit-amt-card .eac-current{font-size:13px;font-weight:800;color:var(--GOLD)}
+.edit-amt-card .eac-row{display:flex;gap:8px;align-items:center}
+.edit-amt-card input{flex:1;padding:11px 13px;border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;background:rgba(255,255,255,0.08);color:#fff;outline:none;-webkit-appearance:none}
+.edit-amt-card input:focus{border-color:var(--GOLD);background:rgba(255,255,255,0.12)}
+.edit-amt-card input::placeholder{color:rgba(255,255,255,0.3);font-size:13px;font-weight:400}
+.edit-amt-card .eac-btn{padding:11px 16px;border-radius:10px;border:none;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.edit-amt-card .eac-btn.house{background:linear-gradient(135deg,rgba(124,77,255,.8),rgba(99,102,241,.8));color:#fff}
+.edit-amt-card .eac-btn.car{background:linear-gradient(135deg,rgba(249,168,37,.85),rgba(239,108,0,.75));color:#fff}
+.edit-amt-card .eac-note{font-size:10px;color:var(--TXT3);margin-top:8px;line-height:1.5}
+.gauge-wrap{display:flex;flex-direction:column;gap:12px;padding:4px 0}
 .gauge-item{text-align:center}
 .gauge-lbl{font-size:10px;color:var(--TXT3);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 
@@ -384,12 +467,20 @@ body::after{
 <div class="hdr">
   <div class="hdr-inner">
     <div class="hdr-left">
-      <div class="hdr-logo">🏠</div>
+      <div class="hdr-logo" style="background:none;border:none;padding:0;box-shadow:none">
+        <svg viewBox="0 0 80 80" width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="37" fill="#f5f0e8" stroke="#c9a84c" stroke-width="1.2"/>
+          <circle cx="40" cy="40" r="32" fill="none" stroke="#c9a84c" stroke-width="0.6"/>
+          <text x="40" y="52" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="26" fill="#7a5c1e" font-weight="400" letter-spacing="1">JM</text>
+        </svg>
+      </div>
       <div class="hdr-title"><h2>J &amp; M Budget</h2><span>Family Finance Tracker</span></div>
     </div>
     <div class="hdr-right">
       <div class="sdot" id="sdot"></div>
-      <button class="ib" onclick="showPg('settings')"><span class="material-icons-round">settings</span></button>
+      <button class="ib" id="eyeBtn" onclick="togglePrivacy()" title="Hide/Show amounts"><span class="material-icons-round">visibility</span></button>
+      <button class="ib" id="themeBtn" onclick="toggleTheme()" title="Dark/Light theme"><span class="material-icons-round">light_mode</span></button>
+      <button class="ib" onclick="showPg('settings')" title="Settings"><span class="material-icons-round">settings</span></button>
     </div>
   </div>
 </div>
@@ -494,8 +585,26 @@ body::after{
     <div class="sec-lbl">Goal Meters</div>
     <div class="chart-card glass" style="padding:14px">
       <div class="gauge-wrap">
-        <div class="gauge-item"><div class="chart-wrap gauge"><canvas id="ch-gauge-house"></canvas></div><div class="gauge-lbl" style="color:#b388ff">🏠 House Goal</div></div>
-        <div class="gauge-item"><div class="chart-wrap gauge"><canvas id="ch-gauge-car"></canvas></div><div class="gauge-lbl" style="color:var(--GOLD)">🚗 Car Goal</div></div>
+        <!-- House gauge -->
+        <div class="gauge-single">
+          <div class="gauge-canvas-wrap"><canvas id="ch-gauge-house"></canvas></div>
+          <div class="gauge-info">
+            <div class="gi-name">🏠 House — Chennai</div>
+            <div class="gi-pct" style="color:#b388ff" id="gauge-h-pct">0%</div>
+            <div class="gi-saved" id="gauge-h-saved">Saved: ₹0</div>
+            <div class="gi-rem" id="gauge-h-rem">Remaining: ₹1,00,00,000</div>
+          </div>
+        </div>
+        <!-- Car gauge -->
+        <div class="gauge-single">
+          <div class="gauge-canvas-wrap"><canvas id="ch-gauge-car"></canvas></div>
+          <div class="gauge-info">
+            <div class="gi-name">🚗 Car Fund</div>
+            <div class="gi-pct" style="color:var(--GOLD)" id="gauge-c-pct">0%</div>
+            <div class="gi-saved" id="gauge-c-saved">Saved: ₹0</div>
+            <div class="gi-rem" id="gauge-c-rem">Target: Not set</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -518,10 +627,18 @@ body::after{
       <div class="goal-input-area">
         <label>Add Lump-Sum to House Fund</label>
         <div class="ginrow"><input type="number" id="h-add-inp" placeholder="Amount (₹)" inputmode="decimal"/><button class="gupdbt" onclick="addGoal('house')">+ Add</button></div>
-        <label style="margin-top:12px">Edit Total Saved Amount</label>
-        <div class="edit-saved-row">
-          <input type="number" id="h-edit-inp" placeholder="Set exact saved amount (₹)" inputmode="decimal"/>
-          <button onclick="editSaved('house')">✏️ Set</button>
+        <div class="edit-amt-card">
+          <div class="eac-header">
+            <span class="eac-title">✏️ Edit Total Saved Amount</span>
+            <span class="eac-current" id="h-saved-display">Current: ₹0</span>
+          </div>
+          <div class="eac-row">
+            <input type="number" id="h-edit-inp" placeholder="Enter new total saved amount" inputmode="decimal"/>
+            <button class="eac-btn house" onclick="editSaved('house')">
+              <span class="material-icons-round" style="font-size:16px">save</span>Save
+            </button>
+          </div>
+          <div class="eac-note">⚠ This sets the exact total. Use "+ Add" above to add a new amount on top of the existing total.</div>
         </div>
         <div class="goal-tip">💡 Categorise savings as "House Fund – Chennai" in Entries tab to auto-track here.</div>
       </div>
@@ -551,10 +668,18 @@ body::after{
         </div>
         <label>Add Lump-Sum to Car Fund</label>
         <div class="ginrow"><input type="number" id="c-add-inp" placeholder="Amount (₹)" inputmode="decimal"/><button class="gupdbt gold" onclick="addGoal('car')">+ Add</button></div>
-        <label style="margin-top:12px">Edit Total Saved Amount</label>
-        <div class="edit-saved-row">
-          <input type="number" id="c-edit-inp" placeholder="Set exact saved amount (₹)" inputmode="decimal"/>
-          <button onclick="editSaved('car')">✏️ Set</button>
+        <div class="edit-amt-card">
+          <div class="eac-header">
+            <span class="eac-title">✏️ Edit Total Saved Amount</span>
+            <span class="eac-current" id="c-saved-display">Current: ₹0</span>
+          </div>
+          <div class="eac-row">
+            <input type="number" id="c-edit-inp" placeholder="Enter new total saved amount" inputmode="decimal"/>
+            <button class="eac-btn car" onclick="editSaved('car')">
+              <span class="material-icons-round" style="font-size:16px">save</span>Save
+            </button>
+          </div>
+          <div class="eac-note">⚠ This sets the exact total. Use "+ Add" above to add a new amount on top of the existing total.</div>
         </div>
       </div>
     </div>
@@ -597,11 +722,11 @@ body::after{
       <div class="step"><div class="stepn">2</div><div>Add App → Web → Register → copy firebaseConfig values</div></div>
       <div class="step"><div class="stepn">3</div><div>Realtime Database → Create → Start in <strong>test mode</strong></div></div>
       <div class="step"><div class="stepn">4</div><div>Paste below → tap Connect</div></div>
-      <div class="cfg-f"><label>API Key</label><input id="cak" placeholder="AIzaSy…"/></div>
-      <div class="cfg-f"><label>Auth Domain</label><input id="cad" placeholder="project.firebaseapp.com"/></div>
-      <div class="cfg-f"><label>Database URL</label><input id="cdu" placeholder="https://project-rtdb.firebaseio.com"/></div>
-      <div class="cfg-f"><label>Project ID</label><input id="cpi" placeholder="your-project-id"/></div>
-      <div class="cfg-f"><label>App ID</label><input id="cai" placeholder="1:123:web:abc…"/></div>
+      <div class="cfg-f"><label>API Key</label><input id="cak" value="AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY"/></div>
+      <div class="cfg-f"><label>Auth Domain</label><input id="cad" value="jmbudget-be846.firebaseapp.com"/></div>
+      <div class="cfg-f"><label>Database URL</label><input id="cdu" value="https://jmbudget-be846-default-rtdb.firebaseio.com"/></div>
+      <div class="cfg-f"><label>Project ID</label><input id="cpi" value="jmbudget-be846"/></div>
+      <div class="cfg-f"><label>App ID</label><input id="cai" value="1:765462801827:web:72ada08c6f577983793e16"/></div>
       <button class="fbbtn" onclick="connectFB()">🔥 Connect Firebase</button>
       <div class="fb-status" id="fb-status"></div>
     </div>
@@ -612,11 +737,12 @@ body::after{
     </div>
     <div class="sec-lbl">Data</div>
     <div class="scard">
-      <div class="srow" onclick="exportData()"><span class="material-icons-round srow-ico" style="color:#81c784">download</span><div class="srow-inf"><div class="srow-lbl">Export All Data (JSON)</div><div class="srow-sub">Download complete budget history</div></div><span class="material-icons-round srow-r">chevron_right</span></div>
+      <div class="srow" onclick="exportExcel()"><span class="material-icons-round srow-ico" style="color:#81c784">table_chart</span><div class="srow-inf"><div class="srow-lbl">Export as Excel (.xlsx)</div><div class="srow-sub">All months — transactions, goals, yearly summary</div></div><span class="material-icons-round srow-r">chevron_right</span></div>
+      <div class="srow" onclick="exportData()"><span class="material-icons-round srow-ico" style="color:#80deea">download</span><div class="srow-inf"><div class="srow-lbl">Export as JSON (backup)</div><div class="srow-sub">Raw data backup file</div></div><span class="material-icons-round srow-r">chevron_right</span></div>
       <div class="srow" onclick="clearCurrentMonth()"><span class="material-icons-round srow-ico" style="color:#ef9a9a">delete_sweep</span><div class="srow-inf"><div class="srow-lbl">Clear Current Month</div><div class="srow-sub">Delete entries for today's month</div></div><span class="material-icons-round srow-r">chevron_right</span></div>
     </div>
     <div class="scard" style="margin-bottom:20px">
-      <div class="srow"><span class="material-icons-round srow-ico" style="color:var(--GOLD)">favorite</span><div class="srow-inf"><div class="srow-lbl">Johnson &amp; Melba Family Budget</div><div class="srow-sub">v3.1 · Glassmorphism · Kuwait 🇰🇼 &amp; India 🇮🇳</div></div></div>
+      <div class="srow"><span class="material-icons-round srow-ico" style="color:var(--GOLD)">favorite</span><div class="srow-inf"><div class="srow-lbl">Johnson &amp; Melba Family Budget</div><div class="srow-sub">v4.1 · Glassmorphism · Kuwait 🇰🇼 &amp; India 🇮🇳</div></div></div>
     </div>
   </div>
 </div>
@@ -629,7 +755,6 @@ body::after{
   <button class="tab" id="tab-entries" onclick="showPg('entries')"><span class="material-icons-round">receipt_long</span><span class="tlbl">Entries</span><div class="tab-indicator"></div></button>
   <button class="tab" id="tab-goals" onclick="showPg('goals')"><span class="material-icons-round">flag</span><span class="tlbl">Goals</span><div class="tab-indicator"></div></button>
   <button class="tab" id="tab-yearly" onclick="showPg('yearly')"><span class="material-icons-round">bar_chart</span><span class="tlbl">Yearly</span><div class="tab-indicator"></div></button>
-  <button class="tab" id="tab-settings" onclick="showPg('settings')"><span class="material-icons-round">settings</span><span class="tlbl">Settings</span><div class="tab-indicator"></div></button>
 </div>
 
 <!-- ADD MODAL -->
@@ -695,7 +820,7 @@ const CATS={
 const ICONS={exp:'shopping_cart',inc:'payments',sav:'savings',dbt:'account_balance'};
 
 const NOW=new Date();
-let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson'};
+let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson',privacy:false,darkMode:localStorage.getItem('jmTheme')!=='light'};
 let LD={};try{LD=JSON.parse(localStorage.getItem('jmD')||'{}');}catch(e){LD={};}
 let toastT,fbDB=null,charts={};
 let curEntTab='exp';
@@ -739,7 +864,7 @@ function mkey(y,m){return y+'-'+m;}
 function getTxns(y,m){return((LD[mkey(y,m)]||{}).transactions)||{};}
 function getGoals(){return LD.goals||{houseSaved:0,carSaved:0,carTarget:0,houseTarget:10000000};}
 function save(){localStorage.setItem('jmD',JSON.stringify(LD));}
-function fmt(n){if(!n&&n!==0)return'₹0';return'₹'+Math.round(Math.abs(n)).toLocaleString('en-IN');}
+function fmt(n,raw=false){if(S.privacy&&!raw)return'₹ ••••';if(!n&&n!==0)return'₹0';return'₹'+Math.round(Math.abs(n)).toLocaleString('en-IN');}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 function fmtD(d){if(!d)return'';const dt=new Date(d);return dt.getDate()+' '+MNS[dt.getMonth()];}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -857,33 +982,32 @@ function drawHomeCharts(){
 }
 
 // ── GAUGE CHART ──
-function drawGauge(id,pct,color1,color2){
+function drawGauge(id,pct,color){
   const canvas=document.getElementById(id);if(!canvas)return;
   if(charts[id])charts[id].destroy();
   const p=Math.min(100,Math.max(0,pct));
+  const trackColor=S.darkMode?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.07)';
+  const textColor=S.darkMode?'#fff':'#1a1a2e';
   charts[id]=new Chart(canvas,{
     type:'doughnut',
     data:{datasets:[{
       data:[p,100-p],
-      backgroundColor:[color1,'rgba(255,255,255,0.07)'],
-      borderColor:['rgba(255,255,255,0.1)','transparent'],
-      borderWidth:1,circumference:180,rotation:270,
+      backgroundColor:[color,trackColor],
+      borderColor:['transparent','transparent'],
+      borderWidth:0,circumference:180,rotation:270,
     }]},
     options:{
-      responsive:true,maintainAspectRatio:false,cutout:'72%',
+      responsive:true,maintainAspectRatio:false,cutout:'68%',
       plugins:{legend:{display:false},tooltip:{enabled:false}},
-      animation:{animateRotate:true,duration:800},
+      animation:{animateRotate:true,duration:900},
     },
-    plugins:[{id:'gaugeText',afterDraw(chart){
-      const{ctx,chartArea:{top,width,height}}=chart;
+    plugins:[{id:'gaugeNeedle',afterDraw(chart){
+      const{ctx,chartArea}=chart;
+      const cx=chartArea.left+chartArea.width/2;
+      const cy=chartArea.top+chartArea.height*0.88;
       ctx.save();
-      ctx.textAlign='center';ctx.textBaseline='middle';
-      const cx=width/2+chart.chartArea.left;
-      const cy=top+height*0.72;
-      ctx.font='bold 20px Inter';ctx.fillStyle='#fff';
-      ctx.fillText(p.toFixed(1)+'%',cx,cy);
-      ctx.font='10px Inter';ctx.fillStyle='rgba(255,255,255,0.5)';
-      ctx.fillText('achieved',cx,cy+18);
+      ctx.font='bold 14px Inter';ctx.fillStyle=color;ctx.textAlign='center';
+      ctx.fillText(p.toFixed(0)+'%',cx,cy);
       ctx.restore();
     }}],
   });
@@ -1029,6 +1153,9 @@ function renderGoals(){
   set('c-saved',fmt(cs));set('c-rem',ct>0?fmt(Math.max(0,ct-cs)):'—');set('c-monthly',ct>0?fmt(Math.max(0,ct-cs)/6):'—');
   set('car-tgt-lbl',ct>0?'Target: '+fmt(ct)+' · This year':'Set your car target below');
   if(ct>0&&document.getElementById('car-tgt-inp'))document.getElementById('car-tgt-inp').value=ct;
+  // Update "Current" labels in edit cards
+  const hsd=document.getElementById('h-saved-display');if(hsd)hsd.textContent='Current: '+fmt(hs);
+  const csd=document.getElementById('c-saved-display');if(csd)csd.textContent='Current: '+fmt(cs);
   // Update home goal mini cards
   set('hm-pct',hp.toFixed(1)+'%');if(document.getElementById('hm-bar'))document.getElementById('hm-bar').style.width=hp+'%';
   set('hm-sub',fmt(hs)+' saved of '+fmt(ht));
@@ -1039,8 +1166,15 @@ function drawGoalCharts(){
   const g=getGoals();
   const hp=Math.min(100,(g.houseSaved||0)/(g.houseTarget||10000000)*100);
   const cp=g.carTarget>0?Math.min(100,(g.carSaved||0)/g.carTarget*100):0;
-  drawGauge('ch-gauge-house',hp,'rgba(179,136,255,0.9)','rgba(124,77,255,0.3)');
-  drawGauge('ch-gauge-car',cp,'rgba(249,168,37,0.9)','rgba(239,108,0,0.3)');
+  drawGauge('ch-gauge-house',hp,'rgba(179,136,255,0.9)');
+  drawGauge('ch-gauge-car',cp,'rgba(249,168,37,0.9)');
+  // Update gauge info labels
+  set('gauge-h-pct',hp.toFixed(1)+'%');
+  set('gauge-h-saved','Saved: '+fmt(hs));
+  set('gauge-h-rem','Remaining: '+fmt(Math.max(0,ht-hs)));
+  set('gauge-c-pct',cp.toFixed(1)+'%');
+  set('gauge-c-saved','Saved: '+fmt(cs));
+  set('gauge-c-rem',ct>0?'Remaining: '+fmt(Math.max(0,ct-cs)):'Target not set');
   // Line chart
   const labels=[],hC=[],cC=[];let hR=0,cR=0;
   for(let y=2026;y<=2028;y++)for(let m=0;m<12;m++){
@@ -1065,11 +1199,15 @@ function addGoal(which){
 }
 function editSaved(which){
   const inp=document.getElementById(which==='house'?'h-edit-inp':'c-edit-inp');
-  const amt=parseFloat(inp.value);if(!amt||amt<0){toast('⚠ Enter a valid amount');return;}
+  const raw=inp.value.trim();
+  if(raw===''){toast('⚠ Please enter an amount');return;}
+  const amt=parseFloat(raw);
+  if(isNaN(amt)||amt<0){toast('⚠ Enter a valid amount (0 or more)');return;}
   const g=getGoals();
   if(which==='house')g.houseSaved=amt;else g.carSaved=amt;
-  fbSet('goals',g);inp.value='';renderGoals();drawGoalCharts();renderHome();
-  toast('✅ '+(which==='house'?'House':'Car')+' saved amount set to '+fmt(amt));
+  fbSet('goals',g);inp.value='';
+  renderGoals();drawGoalCharts();renderHome();
+  toast('✅ '+(which==='house'?'House':'Car')+' saved amount updated to '+fmt(amt));
 }
 function saveCarTarget(){
   const t=parseFloat(v('car-tgt-inp'));if(!t||t<=0){toast('⚠ Enter a valid target');return;}
@@ -1135,6 +1273,69 @@ function clearCurrentMonth(){
   if(fbDB)fbDB.ref('jmbudget/'+key+'/transactions').remove();
   if(LD[key])delete LD[key].transactions;save();renderHome();toast('🗑 Month cleared');
 }
+function togglePrivacy(){
+  S.privacy=!S.privacy;
+  const btn=document.getElementById('eyeBtn');
+  if(btn)btn.innerHTML=`<span class="material-icons-round">${S.privacy?'visibility_off':'visibility'}</span>`;
+  renderHome();
+  // Also refresh entries summary
+  if(S.curPg==='entries')renderEntries();
+  toast(S.privacy?'🔒 Amounts hidden':'👁 Amounts visible');
+}
+
+function toggleTheme(){
+  S.darkMode=!S.darkMode;
+  localStorage.setItem('jmTheme',S.darkMode?'dark':'light');
+  document.body.classList.toggle('light',!S.darkMode);
+  const btn=document.getElementById('themeBtn');
+  if(btn)btn.innerHTML=`<span class="material-icons-round">${S.darkMode?'light_mode':'dark_mode'}</span>`;
+  // Redraw charts for theme colours
+  if(S.curPg==='home')drawHomeCharts();
+  if(S.curPg==='goals')drawGoalCharts();
+  if(S.curPg==='yearly')drawYearlyCharts(S.yrPlan);
+  toast(S.darkMode?'🌙 Dark mode':'☀️ Light mode');
+}
+
+function exportExcel(){
+  try{
+    if(typeof XLSX==='undefined'){toast('⚠ Excel library not loaded, try again');return;}
+    const wb=XLSX.utils.book_new();
+    const MNF=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    // Sheet 1: All Transactions
+    const txnRows=[['Month','Date','Type','Category','Description','Amount (₹)','Returned (₹)','By']];
+    for(let y=2026;y<=2028;y++){
+      for(let m=0;m<12;m++){
+        const txns=getTxns(y,m);
+        Object.values(txns).forEach(t=>{
+          txnRows.push([MNF[m]+' '+y,t.date||'',t.type,t.cat||'',t.desc||'',t.amount||0,t.returned||0,t.by||'']);
+        });
+      }
+    }
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(txnRows),'All Transactions');
+    // Sheet 2: Monthly Summary
+    const sumRows=[['Year','Month','Total Income','Total Expenses','Net Savings','Total Invested','Savings Rate %']];
+    for(let y=2026;y<=2028;y++){
+      for(let m=0;m<12;m++){
+        let inc=0,exp=0,sav=0;
+        Object.values(getTxns(y,m)).forEach(t=>{if(t.type==='inc')inc+=t.amount;else if(t.type==='exp')exp+=t.amount;else if(t.type==='sav')sav+=t.amount;});
+        const net=inc-exp;
+        sumRows.push([y,MNF[m],inc,exp,net,sav,inc>0?+((net/inc)*100).toFixed(1):0]);
+      }
+    }
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sumRows),'Monthly Summary');
+    // Sheet 3: Goals
+    const g=getGoals();
+    const goalRows=[
+      ['Goal','Target (₹)','Saved (₹)','Remaining (₹)','% Achieved'],
+      ['House — Chennai',g.houseTarget||10000000,g.houseSaved||0,Math.max(0,(g.houseTarget||10000000)-(g.houseSaved||0)),+(((g.houseSaved||0)/(g.houseTarget||10000000))*100).toFixed(1)],
+      ['Car Fund',g.carTarget||0,g.carSaved||0,Math.max(0,(g.carTarget||0)-(g.carSaved||0)),g.carTarget?+(((g.carSaved||0)/g.carTarget)*100).toFixed(1):0],
+    ];
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(goalRows),'Goals');
+    XLSX.writeFile(wb,'JM_Budget_'+new Date().toISOString().slice(0,10)+'.xlsx');
+    toast('✅ Excel file downloaded!');
+  }catch(e){toast('❌ Export error: '+e.message);console.error(e);}
+}
+
 function handlePhotoUpload(evt){
   const file=evt.target.files[0];if(!file)return;
   const reader=new FileReader();
@@ -1167,10 +1368,16 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
   if(ys){for(let y=2026;y<=2028;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===S.entY)o.selected=true;ys.appendChild(o);}}
   if(ms){MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===S.entM)o.selected=true;ms.appendChild(o);});}
 
-  // Restore Firebase config
-  try{const cfg=JSON.parse(localStorage.getItem('jmFB')||'null');
-    if(cfg&&cfg.apiKey){['cak','cad','cdu','cpi','cai'].forEach((id,i)=>{const keys=['apiKey','authDomain','databaseURL','projectId','appId'];const el=document.getElementById(id);if(el)el.value=cfg[keys[i]]||'';});loadFB(cfg);}
-  }catch(e){}
+  // Auto-connect Firebase with pre-configured credentials
+  const DEFAULT_FB = {
+    apiKey:      "AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY",
+    authDomain:  "jmbudget-be846.firebaseapp.com",
+    databaseURL: "https://jmbudget-be846-default-rtdb.firebaseio.com",
+    projectId:   "jmbudget-be846",
+    appId:       "1:765462801827:web:72ada08c6f577983793e16",
+  };
+  localStorage.setItem('jmFB', JSON.stringify(DEFAULT_FB));
+  loadFB(DEFAULT_FB);
 
   document.getElementById('udisp').textContent=S.user+(S.user==='Johnson'?' (Kuwait 🇰🇼)':' (India 🇮🇳)');
 
@@ -1181,6 +1388,12 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
     renderHome();drawHomeCharts();
   },4500);
 
+  // Apply saved theme
+  if(!S.darkMode){
+    document.body.classList.add('light');
+    const tb=document.getElementById('themeBtn');
+    if(tb)tb.innerHTML='<span class="material-icons-round">dark_mode</span>';
+  }
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 })();
 </script>
