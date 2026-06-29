@@ -67,8 +67,7 @@ body.light .fld label{color:#666}
 body.light .fld input,body.light .fld select{background:#f5f5f5;color:#1a1a2e;border-color:#ddd}
 body.light .type-seg{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08)}
 body.light .tseg.active{background:rgba(255,255,255,0.95)}
-body.light .ent-selectors{background:rgba(255,255,255,0.9);border-color:rgba(0,0,0,0.08)}
-body.light .ent-sel select{background:#fff;color:#1a1a2e;border-color:#ddd}
+/* ent-selectors light theme handled in gls-dd section */
 body.light .ent-tabs{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08)}
 body.light .et.active{background:rgba(255,255,255,0.95);color:#1a237e}
 body.light .ent-summary-bar{background:rgba(255,255,255,0.6)}
@@ -292,13 +291,77 @@ body::after{
 
 /* ─── ENTRIES ─── */
 .ent-selectors{
-  background:rgba(15,12,41,0.6);backdrop-filter:var(--BLUR);
-  border-bottom:1px solid var(--GBOR);
-  padding:10px 16px;display:flex;gap:10px;flex-shrink:0;
+  background:rgba(15,12,41,0.55);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  padding:10px 16px;display:flex;gap:10px;flex-shrink:0;align-items:center;
 }
-.ent-sel{flex:1;position:relative}
-.ent-sel select{width:100%;padding:9px 28px 9px 12px;border:1px solid var(--GBOR2);border-radius:10px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;color:#fff;background:var(--GLASS2);appearance:none;-webkit-appearance:none;outline:none;cursor:pointer;backdrop-filter:var(--BLUR2)}
-.ent-sel::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--TXT3);pointer-events:none}
+/* Custom glassmorphism dropdown */
+.gls-dd{flex:1;position:relative;z-index:50}
+.gls-dd-btn{
+  width:100%;padding:9px 30px 9px 12px;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:12px;
+  font-size:12px;font-weight:700;font-family:'Inter',sans-serif;
+  color:#fff;cursor:pointer;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  transition:all .2s;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.gls-dd-btn:active,.gls-dd-btn.open{
+  background:rgba(255,255,255,0.14);
+  border-color:rgba(249,168,37,0.5);
+  box-shadow:0 4px 20px rgba(124,77,255,0.25),inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.gls-dd-btn .dd-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gls-dd-btn .dd-icon{font-size:11px;opacity:.6;transition:transform .2s;flex-shrink:0}
+.gls-dd-btn.open .dd-icon{transform:rotate(180deg);opacity:1}
+.gls-dd-btn .dd-badge{
+  background:linear-gradient(135deg,rgba(124,77,255,.6),rgba(99,102,241,.5));
+  border:1px solid rgba(124,77,255,.4);
+  border-radius:6px;padding:1px 6px;font-size:10px;font-weight:800;
+  color:#fff;flex-shrink:0;
+}
+/* Dropdown panel */
+.gls-dd-panel{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;
+  background:rgba(20,14,50,0.88);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:14px;
+  box-shadow:0 16px 48px rgba(0,0,0,0.45),0 4px 16px rgba(124,77,255,0.2);
+  overflow:hidden;
+  display:none;
+  max-height:220px;overflow-y:auto;
+  z-index:999;
+  animation:ddFadeIn .15s ease;
+}
+@keyframes ddFadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.gls-dd-panel.open{display:block}
+.gls-dd-panel::-webkit-scrollbar{width:3px}
+.gls-dd-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.gls-dd-item{
+  padding:10px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);
+  cursor:pointer;transition:background .15s;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.gls-dd-item:last-child{border-bottom:none}
+.gls-dd-item:hover,.gls-dd-item:active{background:rgba(124,77,255,0.25);color:#fff}
+.gls-dd-item.selected{
+  background:rgba(124,77,255,0.35);color:#fff;font-weight:800;
+}
+.gls-dd-item.selected::after{content:'✓';color:var(--GOLD);font-size:12px}
+/* Light theme overrides */
+body.light .ent-selectors{background:rgba(255,255,255,0.75);border-color:rgba(0,0,0,0.08)}
+body.light .gls-dd-btn{background:rgba(255,255,255,0.7);border-color:rgba(0,0,0,0.15);color:#1a1a2e;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+body.light .gls-dd-btn.open{border-color:rgba(124,77,255,.5);background:rgba(255,255,255,0.9)}
+body.light .gls-dd-panel{background:rgba(255,255,255,0.96);border-color:rgba(0,0,0,0.1);box-shadow:0 12px 40px rgba(0,0,0,0.15)}
+body.light .gls-dd-item{color:#333;border-color:rgba(0,0,0,0.04)}
+body.light .gls-dd-item:hover{background:rgba(124,77,255,.08);color:#1a1a2e}
+body.light .gls-dd-item.selected{background:rgba(124,77,255,.12);color:#1a237e}
 .ent-summary-bar{display:flex;gap:8px;padding:8px 16px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--GBOR);flex-shrink:0}
 .esb-item{flex:1;text-align:center}
 .esb-lbl{font-size:9px;color:var(--TXT3);font-weight:600;text-transform:uppercase}
@@ -381,8 +444,9 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
 .gauge-lbl{font-size:10px;color:var(--TXT3);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 
 /* ─── YEARLY ─── */
-.year-tabs{display:flex;gap:6px;padding:12px 16px 0;flex-shrink:0}
-.ytab{flex:1;padding:9px;border-radius:10px;border:1px solid var(--GBOR);background:var(--GLASS);color:var(--TXT3);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;backdrop-filter:var(--BLUR2)}
+.year-tabs{display:flex;gap:6px;padding:12px 16px 0;flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.year-tabs::-webkit-scrollbar{display:none}
+.ytab{flex-shrink:0;padding:8px 14px;border-radius:10px;border:1px solid var(--GBOR);background:var(--GLASS);color:var(--TXT3);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;backdrop-filter:var(--BLUR2);white-space:nowrap}
 .ytab.active{background:linear-gradient(135deg,rgba(124,77,255,.5),rgba(99,102,241,.4));color:#fff;border-color:rgba(124,77,255,.5)}
 .year-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px 0}
 .ys-card{padding:13px}
@@ -547,8 +611,20 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     <span class="vref">— Jeremiah 17:7-8</span>
   </div>
 
-  <div class="sec-lbl">This Month Overview <span id="home-month-lbl" style="color:var(--GOLD)"></span></div>
-  <div class="kpi-grid">
+  <!-- Month navigation bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 6px">
+    <span style="font-size:11px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.8px">Overview</span>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="homeChMonth(-1)" style="width:32px;height:32px;border-radius:50%;border:1px solid var(--GBOR2);background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);color:var(--TXT2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s" id="home-prev-btn">&#8249;</button>
+      <div style="text-align:center;min-width:130px">
+        <div style="font-size:14px;font-weight:800;color:var(--GOLD)" id="home-month-lbl">June 2026</div>
+        <div style="font-size:9px;color:var(--TXT3);margin-top:1px" id="home-month-rel">Current month</div>
+      </div>
+      <button onclick="homeChMonth(1)" style="width:32px;height:32px;border-radius:50%;border:1px solid var(--GBOR2);background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);color:var(--TXT2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s" id="home-next-btn">&#8250;</button>
+    </div>
+    <span style="font-size:9px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px;cursor:pointer;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid var(--GBOR)" onclick="homeGoToday()">Today</span>
+  </div>
+  <div class="kpi-grid" id="kpi-grid-id">
     <div class="kpi glass2 inc"><div class="kpi-ico">💰</div><div class="kpi-lbl">Income</div><div class="kpi-val inc" id="k-inc">₹0</div><div class="kpi-kwd" id="k-inc-kwd"></div><div class="kpi-sub" id="k-inc-sub">0 entries</div></div>
     <div class="kpi glass2 exp"><div class="kpi-ico">💸</div><div class="kpi-lbl">Expenses</div><div class="kpi-val exp" id="k-exp">₹0</div><div class="kpi-kwd" id="k-exp-kwd"></div><div class="kpi-sub" id="k-exp-sub">0 entries</div></div>
     <div class="kpi glass2 sav"><div class="kpi-ico">🏦</div><div class="kpi-lbl">Saved/Invested</div><div class="kpi-val sav" id="k-sav">₹0</div><div class="kpi-kwd" id="k-sav-kwd"></div><div class="kpi-sub" id="k-sav-sub">0 entries</div></div>
@@ -586,8 +662,24 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     <span class="vref">— Philippians 4:19</span>
   </div>
   <div class="ent-selectors">
-    <div class="ent-sel"><select id="ent-year" onchange="entSelChange()"></select></div>
-    <div class="ent-sel"><select id="ent-month" onchange="entSelChange()"></select></div>
+    <!-- Year custom glass dropdown -->
+    <div class="gls-dd" id="dd-year">
+      <button class="gls-dd-btn" onclick="toggleDD('year')" id="dd-year-btn">
+        <span class="dd-label" id="dd-year-lbl">2026</span>
+        <span class="dd-badge">Year</span>
+        <span class="dd-icon">▾</span>
+      </button>
+      <div class="gls-dd-panel" id="dd-year-panel"></div>
+    </div>
+    <!-- Month custom glass dropdown -->
+    <div class="gls-dd" id="dd-month">
+      <button class="gls-dd-btn" onclick="toggleDD('month')" id="dd-month-btn">
+        <span class="dd-label" id="dd-month-lbl">January</span>
+        <span class="dd-badge">Month</span>
+        <span class="dd-icon">▾</span>
+      </button>
+      <div class="gls-dd-panel" id="dd-month-panel"></div>
+    </div>
   </div>
   <div class="ent-summary-bar">
     <div class="esb-item"><div class="esb-lbl">Income</div><div class="esb-val" style="color:#81c784" id="ent-s-inc">₹0</div></div>
@@ -745,10 +837,13 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     "Commit to the Lord whatever you do, and he will establish your plans."
     <span class="vref">— Proverbs 16:3</span>
   </div>
-  <div class="year-tabs">
+  <div class="year-tabs" id="year-tabs-row">
     <button class="ytab active" id="yt-2026" onclick="setYear(2026)">2026</button>
     <button class="ytab" id="yt-2027" onclick="setYear(2027)">2027</button>
     <button class="ytab" id="yt-2028" onclick="setYear(2028)">2028</button>
+    <button class="ytab" id="yt-2029" onclick="setYear(2029)">2029</button>
+    <button class="ytab" id="yt-2030" onclick="setYear(2030)">2030</button>
+    <button class="ytab" id="yt-2031" onclick="setYear(2031)">2031</button>
   </div>
   <div class="pg-scroll">
     <div class="year-summary-grid" id="yr-grid"></div>
@@ -886,7 +981,7 @@ const CATS={
 const ICONS={exp:'shopping_cart',inc:'payments',sav:'savings',dbt:'account_balance'};
 
 const NOW=new Date();
-let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson',privacy:false,darkMode:localStorage.getItem('jmTheme')!=='light',currency:'INR'};
+let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),homeY:NOW.getFullYear(),homeM:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson',privacy:false,darkMode:localStorage.getItem('jmTheme')!=='light',currency:'INR'};
 
 // ── KWD / INR Currency ──
 let kwdRate = parseFloat(localStorage.getItem('jmKWDRate')) || 275.0;
@@ -1034,7 +1129,8 @@ function refreshAll(){
 // ── HOME ──
 function renderHome(){
   const now=new Date();
-  const txns=getTxns(now.getFullYear(),now.getMonth());
+  const hY=S.homeY, hM=S.homeM;
+  const txns=getTxns(hY,hM);
   let inc=0,exp=0,sav=0,ni=0,ne=0,ns=0;
   Object.values(txns).forEach(t=>{
     if(t.type==='inc'){inc+=t.amount;ni++;}
@@ -1044,7 +1140,15 @@ function renderHome(){
   const netDbt=calcNetDebt(txns);
   const bal=inc-exp;
   const rate=inc>0?((inc-exp)/inc*100):0;
-  set('home-month-lbl',MN[now.getMonth()]+' '+now.getFullYear());
+  // Month label + relative indicator
+  set('home-month-lbl',MN[hM]+' '+hY);
+  const todayY=now.getFullYear(),todayM=now.getMonth();
+  const diff=(hY-todayY)*12+(hM-todayM);
+  const relLbl = diff===0?'Current month':diff===-1?'Last month':diff===1?'Next month':diff<0?Math.abs(diff)+' months ago':diff+' months ahead';
+  set('home-month-rel',relLbl);
+  // Style next button — dim if in future beyond current
+  const nextBtn=document.getElementById('home-next-btn');
+  if(nextBtn)nextBtn.style.opacity=(hY>todayY||(hY===todayY&&hM>=todayM))?'0.35':'1';
   set('k-inc',fmt(inc));set('k-exp',fmt(exp));set('k-sav',fmt(sav));
   set('k-dbt',fmt(netDbt));set('k-rate',rate.toFixed(1)+'%');
   set('k-inc-sub',ni+' entr'+(ni===1?'y':'ies'));
@@ -1078,10 +1182,27 @@ function renderHome(){
   const cp=Math.min(100,ct>0?(cs/ct)*100:0);
   set('cm-pct',cp.toFixed(1)+'%');document.getElementById('cm-bar').style.width=cp+'%';
   set('cm-sub',ct>0?fmt(cs)+' saved of '+fmt(ct):fmt(cs)+' saved · Set target in Goals tab');
-  const vv=VERSES[(now.getFullYear()*12+now.getMonth())%VERSES.length];
+  const vv=VERSES[(hY*12+hM)%VERSES.length];
   set('home-verse-mini','"'+vv.t.slice(0,55)+'…" — '+vv.r);
   const ph=localStorage.getItem('jmPhoto');
   if(ph){const img=document.getElementById('familyPhoto');img.src=ph;img.classList.add('loaded');document.getElementById('photoPlaceholder').style.display='none';set('photoUploadLbl','Change Photo');}
+}
+
+// ── HOME MONTH NAVIGATION ──
+function homeChMonth(dir){
+  S.homeM+=dir;
+  if(S.homeM<0){S.homeM=11;S.homeY--;}
+  if(S.homeM>11){S.homeM=0;S.homeY++;}
+  renderHome();
+  // Animate the KPI cards
+  const grid=document.getElementById('kpi-grid-id');
+  if(grid){grid.style.opacity='0';grid.style.transform='translateX('+(dir>0?'20px':'-20px')+')';
+    setTimeout(()=>{grid.style.transition='opacity .25s,transform .25s';grid.style.opacity='1';grid.style.transform='translateX(0)';},50);}
+}
+function homeGoToday(){
+  const now=new Date();
+  S.homeY=now.getFullYear();S.homeM=now.getMonth();
+  renderHome();
 }
 
 // ── CHARTS ──
@@ -1162,13 +1283,88 @@ function drawGauge(id,pct,color){
 }
 
 // ── ENTRIES ──
-function populateEntSelectors(){
-  const ys=document.getElementById('ent-year'),ms=document.getElementById('ent-month');
-  if(!ys||!ms)return;
-  ys.innerHTML='';for(let y=2026;y<=2028;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===S.entY)o.selected=true;ys.appendChild(o);}
-  ms.innerHTML='';MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===S.entM)o.selected=true;ms.appendChild(o);});
+// ── Custom Glass Dropdown ──
+const MN_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function buildDropdowns(){
+  // Year panel: 2026–2050
+  const yp = document.getElementById('dd-year-panel');
+  if(yp){
+    yp.innerHTML='';
+    for(let y=2026;y<=2050;y++){
+      const d=document.createElement('div');
+      d.className='gls-dd-item'+(y===S.entY?' selected':'');
+      d.textContent=y;
+      d.onclick=()=>selectDD('year',y,String(y));
+      yp.appendChild(d);
+    }
+  }
+  // Month panel
+  const mp=document.getElementById('dd-month-panel');
+  if(mp){
+    mp.innerHTML='';
+    MN_FULL.forEach((m,i)=>{
+      const d=document.createElement('div');
+      d.className='gls-dd-item'+(i===S.entM?' selected':'');
+      d.textContent=m;
+      d.onclick=()=>selectDD('month',i,m);
+      mp.appendChild(d);
+    });
+  }
+  // Update button labels
+  document.getElementById('dd-year-lbl').textContent=S.entY;
+  document.getElementById('dd-month-lbl').textContent=MN_FULL[S.entM];
+  // Scroll selected year into view
+  setTimeout(()=>{
+    const sel=yp&&yp.querySelector('.selected');
+    if(sel)sel.scrollIntoView({block:'center'});
+  },50);
 }
-function entSelChange(){S.entY=parseInt(v('ent-year'));S.entM=parseInt(document.getElementById('ent-month').value);renderEntries();}
+
+function toggleDD(which){
+  const panel=document.getElementById('dd-'+which+'-panel');
+  const btn=document.getElementById('dd-'+which+'-btn');
+  const isOpen=panel.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.gls-dd-panel').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.gls-dd-btn').forEach(b=>b.classList.remove('open'));
+  if(!isOpen){
+    panel.classList.add('open');
+    btn.classList.add('open');
+    // Scroll selected into view
+    setTimeout(()=>{
+      const sel=panel.querySelector('.selected');
+      if(sel)sel.scrollIntoView({block:'center',behavior:'instant'});
+    },30);
+  }
+}
+
+function selectDD(which,val,label){
+  if(which==='year'){S.entY=val;document.getElementById('dd-year-lbl').textContent=label;}
+  else{S.entM=val;document.getElementById('dd-month-lbl').textContent=label;}
+  // Update selected styling
+  document.querySelectorAll('#dd-'+which+'-panel .gls-dd-item').forEach(d=>{
+    const match = which==='year'?parseInt(d.textContent)===val:MN_FULL.indexOf(d.textContent)===val;
+    d.classList.toggle('selected',match);
+  });
+  // Close panel
+  document.getElementById('dd-'+which+'-panel').classList.remove('open');
+  document.getElementById('dd-'+which+'-btn').classList.remove('open');
+  renderEntries();
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.gls-dd')){
+    document.querySelectorAll('.gls-dd-panel').forEach(p=>p.classList.remove('open'));
+    document.querySelectorAll('.gls-dd-btn').forEach(b=>b.classList.remove('open'));
+  }
+});
+
+function populateEntSelectors(){
+  buildDropdowns();
+}
+function entSelChange(){renderEntries();} // legacy - now handled by selectDD
 function setEntTab(t){curEntTab=t;['exp','inc','sav','dbt'].forEach(x=>document.getElementById('et-'+x).classList.remove('active'));document.getElementById('et-'+t).classList.add('active');renderEntBody();}
 
 function renderEntries(){
@@ -1193,16 +1389,24 @@ function renderEntBody(){
   if(t==='dbt'){
     const recv=items.reduce((s,[,tx])=>s+tx.amount,0);
     const ret=items.reduce((s,[,tx])=>s+(tx.returned||0),0);
-    totalDisplay=`<span style="color:#ce93d8">${fmt(recv)} recv</span> <span style="color:rgba(255,255,255,.4)">−</span> <span style="color:#81c784">${fmt(ret)} ret</span> <span style="color:rgba(255,255,255,.4)">=</span> <span style="color:#ef9a9a">${fmt(Math.max(0,recv-ret))} net</span>`;
+    const net=Math.max(0,recv-ret);
+    // Compact font for large numbers (6+ digits)
+    const isLarge = recv>=100000||ret>=100000;
+    const fs = isLarge?'9px':'11px';
+    totalDisplay=`<div style="font-size:${fs};line-height:1.5;text-align:right;max-width:180px">
+      <span style="color:#ce93d8;font-weight:700">${fmt(recv)}</span><span style="color:rgba(255,255,255,.4)"> recv</span><br/>
+      <span style="color:rgba(255,255,255,.4)">− </span><span style="color:#81c784;font-weight:700">${fmt(ret)}</span><span style="color:rgba(255,255,255,.4)"> ret</span><br/>
+      <span style="color:rgba(255,255,255,.4)">= </span><span style="color:#ef9a9a;font-weight:800">${fmt(net)}</span><span style="color:rgba(255,255,255,.4)"> net</span>
+    </div>`;
   }else{
     const tot=items.reduce((s,[,tx])=>s+tx.amount,0);
     const cls={exp:'exp',inc:'inc',sav:'sav',dbt:'dbt'}[t];
     totalDisplay=`<span class="esh-total ${cls}">${fmt(tot)}</span>`;
   }
 
-  let html=`<div class="ent-section-hdr">
+  let html=`<div class="ent-section-hdr" style="align-items:${t==='dbt'?'flex-start':'center'}">
     <div class="esh-left"><div class="esh-ico ${t}"><span class="material-icons-round">${ICONS[t]}</span></div><div class="esh-title">${labels[t]}</div></div>
-    <div style="display:flex;align-items:center;gap:10px">${totalDisplay}<button class="add-btn" onclick="openAddModal('${t}')"><span class="material-icons-round" style="font-size:14px">add</span>Add</button></div>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">${totalDisplay}<button class="add-btn" onclick="openAddModal('${t}')"><span class="material-icons-round" style="font-size:14px">add</span>Add</button></div>
   </div>`;
 
   if(!items.length){
@@ -1407,7 +1611,7 @@ function saveCarTarget(){
 
 // ── YEARLY ──
 function setYear(y){
-  S.yrPlan=y;['2026','2027','2028'].forEach(yr=>document.getElementById('yt-'+yr).classList.remove('active'));
+  S.yrPlan=y;['2026','2027','2028','2029','2030','2031'].forEach(yr=>{const el=document.getElementById('yt-'+yr);if(el)el.classList.remove('active');});
   document.getElementById('yt-'+y).classList.add('active');renderYearly(y);drawYearlyCharts(y);
 }
 function renderYearly(yr){
@@ -1432,7 +1636,7 @@ function renderYearly(yr){
   set('yr-chart-lbl',String(yr));
 }
 function drawYearlyCharts(yr){
-  const yrs=[2026,2027,2028],yi=[],ye=[],ys=[];
+  const yrs=[2026,2027,2028,2029,2030,2031],yi=[],ye=[],ys=[];
   yrs.forEach(y=>{let i=0,e=0,s=0;for(let m=0;m<12;m++)Object.values(getTxns(y,m)).forEach(t=>{if(t.type==='inc')i+=t.amount;else if(t.type==='exp')e+=t.amount;else if(t.type==='sav')s+=t.amount;});yi.push(i);ye.push(e);ys.push(s);});
   mkChart('ch-yearly','bar',yrs.map(String),[
     {label:'Income',data:yi,backgroundColor:'rgba(129,199,132,.75)',borderRadius:6},
@@ -1557,9 +1761,8 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
   showVerse(0);const vInt=setInterval(()=>{vi=(vi+1)%VERSES.length;showVerse(vi);},3200);
 
   // Populate entry year/month selectors
-  const ys=document.getElementById('ent-year'),ms=document.getElementById('ent-month');
-  if(ys){for(let y=2026;y<=2028;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===S.entY)o.selected=true;ys.appendChild(o);}}
-  if(ms){MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===S.entM)o.selected=true;ms.appendChild(o);});}
+  // dropdowns built via buildDropdowns()
+  buildDropdowns(); // build glassmorphism year/month dropdowns
 
   // Auto-connect Firebase with pre-configured credentials
   const DEFAULT_FB = {
