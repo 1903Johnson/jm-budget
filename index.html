@@ -67,7 +67,8 @@ body.light .fld label{color:#666}
 body.light .fld input,body.light .fld select{background:#f5f5f5;color:#1a1a2e;border-color:#ddd}
 body.light .type-seg{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08)}
 body.light .tseg.active{background:rgba(255,255,255,0.95)}
-/* ent-selectors light theme handled in gls-dd section */
+body.light .ent-selectors{background:rgba(255,255,255,0.9);border-color:rgba(0,0,0,0.08)}
+body.light .ent-sel select{background:#fff;color:#1a1a2e;border-color:#ddd}
 body.light .ent-tabs{background:rgba(0,0,0,0.04);border-color:rgba(0,0,0,0.08)}
 body.light .et.active{background:rgba(255,255,255,0.95);color:#1a237e}
 body.light .ent-summary-bar{background:rgba(255,255,255,0.6)}
@@ -101,27 +102,6 @@ body.light::before{background:radial-gradient(circle,rgba(99,102,241,0.06) 0%,tr
 body.light::after{background:radial-gradient(circle,rgba(249,168,37,0.04) 0%,transparent 70%)}
 /* Privacy mask */
 .privacy-mask{filter:blur(6px);user-select:none;transition:filter .3s}
-/* Currency selector */
-.curr-seg{display:flex;gap:6px;margin-bottom:12px}
-.curr-btn{flex:1;padding:9px 8px;border-radius:10px;border:1.5px solid var(--GBOR2);background:var(--GLASS);color:var(--TXT2);font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px}
-.curr-btn.active.inr{border-color:#81c784;background:rgba(76,175,80,.15);color:#81c784}
-.curr-btn.active.kwd{border-color:#f9a825;background:rgba(249,168,37,.15);color:#f9a825}
-.kwd-preview{background:rgba(249,168,37,.08);border:1px solid rgba(249,168,37,.25);border-radius:10px;padding:10px 13px;margin-bottom:12px;display:none}
-.kwd-preview.show{display:block}
-.kwd-preview .kp-row{display:flex;align-items:center;justify-content:space-between}
-.kwd-preview .kp-kwd{font-size:15px;font-weight:800;color:#f9a825}
-.kwd-preview .kp-arrow{color:var(--TXT3);font-size:13px;margin:0 6px}
-.kwd-preview .kp-inr{font-size:15px;font-weight:800;color:#81c784}
-.kwd-preview .kp-rate{font-size:10px;color:var(--TXT3);margin-top:4px}
-.kwd-rate-bar{background:rgba(249,168,37,.07);border:1px solid rgba(249,168,37,.18);border-radius:8px;padding:7px 12px;margin:8px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--TXT3)}
-.kwd-rate-bar .krb-flag{font-size:16px}
-.kwd-rate-bar .krb-rate{font-weight:700;color:#f9a825;font-size:12px}
-.kwd-rate-bar .krb-date{font-size:10px;color:var(--TXT3);margin-left:auto}
-/* KWD sub-amount in cards and rows */
-.kwd-sub{font-size:10px;color:#f9a825;opacity:.8;margin-top:2px;font-weight:600;font-style:italic}
-.kwd-sub.masked{filter:blur(5px)}
-.kpi-kwd{font-size:10px;color:#f9a825;opacity:.75;margin-top:1px;font-weight:600}
-.kpi-kwd.masked{filter:blur(5px)}
 
 /* Animated background orbs */
 body::before,body::after{
@@ -291,77 +271,13 @@ body::after{
 
 /* ─── ENTRIES ─── */
 .ent-selectors{
-  background:rgba(15,12,41,0.55);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(255,255,255,0.1);
-  padding:10px 16px;display:flex;gap:10px;flex-shrink:0;align-items:center;
+  background:rgba(15,12,41,0.6);backdrop-filter:var(--BLUR);
+  border-bottom:1px solid var(--GBOR);
+  padding:10px 16px;display:flex;gap:10px;flex-shrink:0;
 }
-/* Custom glassmorphism dropdown */
-.gls-dd{flex:1;position:relative;z-index:50}
-.gls-dd-btn{
-  width:100%;padding:9px 30px 9px 12px;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.18);
-  border-radius:12px;
-  font-size:12px;font-weight:700;font-family:'Inter',sans-serif;
-  color:#fff;cursor:pointer;text-align:left;
-  display:flex;align-items:center;justify-content:space-between;gap:6px;
-  transition:all .2s;
-  box-shadow:0 4px 16px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.1);
-}
-.gls-dd-btn:active,.gls-dd-btn.open{
-  background:rgba(255,255,255,0.14);
-  border-color:rgba(249,168,37,0.5);
-  box-shadow:0 4px 20px rgba(124,77,255,0.25),inset 0 1px 0 rgba(255,255,255,0.15);
-}
-.gls-dd-btn .dd-label{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.gls-dd-btn .dd-icon{font-size:11px;opacity:.6;transition:transform .2s;flex-shrink:0}
-.gls-dd-btn.open .dd-icon{transform:rotate(180deg);opacity:1}
-.gls-dd-btn .dd-badge{
-  background:linear-gradient(135deg,rgba(124,77,255,.6),rgba(99,102,241,.5));
-  border:1px solid rgba(124,77,255,.4);
-  border-radius:6px;padding:1px 6px;font-size:10px;font-weight:800;
-  color:#fff;flex-shrink:0;
-}
-/* Dropdown panel */
-.gls-dd-panel{
-  position:absolute;top:calc(100% + 6px);left:0;right:0;
-  background:rgba(20,14,50,0.88);
-  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:14px;
-  box-shadow:0 16px 48px rgba(0,0,0,0.45),0 4px 16px rgba(124,77,255,0.2);
-  overflow:hidden;
-  display:none;
-  max-height:220px;overflow-y:auto;
-  z-index:999;
-  animation:ddFadeIn .15s ease;
-}
-@keyframes ddFadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-.gls-dd-panel.open{display:block}
-.gls-dd-panel::-webkit-scrollbar{width:3px}
-.gls-dd-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
-.gls-dd-item{
-  padding:10px 14px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.8);
-  cursor:pointer;transition:background .15s;
-  border-bottom:1px solid rgba(255,255,255,0.04);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.gls-dd-item:last-child{border-bottom:none}
-.gls-dd-item:hover,.gls-dd-item:active{background:rgba(124,77,255,0.25);color:#fff}
-.gls-dd-item.selected{
-  background:rgba(124,77,255,0.35);color:#fff;font-weight:800;
-}
-.gls-dd-item.selected::after{content:'✓';color:var(--GOLD);font-size:12px}
-/* Light theme overrides */
-body.light .ent-selectors{background:rgba(255,255,255,0.75);border-color:rgba(0,0,0,0.08)}
-body.light .gls-dd-btn{background:rgba(255,255,255,0.7);border-color:rgba(0,0,0,0.15);color:#1a1a2e;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
-body.light .gls-dd-btn.open{border-color:rgba(124,77,255,.5);background:rgba(255,255,255,0.9)}
-body.light .gls-dd-panel{background:rgba(255,255,255,0.96);border-color:rgba(0,0,0,0.1);box-shadow:0 12px 40px rgba(0,0,0,0.15)}
-body.light .gls-dd-item{color:#333;border-color:rgba(0,0,0,0.04)}
-body.light .gls-dd-item:hover{background:rgba(124,77,255,.08);color:#1a1a2e}
-body.light .gls-dd-item.selected{background:rgba(124,77,255,.12);color:#1a237e}
+.ent-sel{flex:1;position:relative}
+.ent-sel select{width:100%;padding:9px 28px 9px 12px;border:1px solid var(--GBOR2);border-radius:10px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;color:#fff;background:var(--GLASS2);appearance:none;-webkit-appearance:none;outline:none;cursor:pointer;backdrop-filter:var(--BLUR2)}
+.ent-sel::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--TXT3);pointer-events:none}
 .ent-summary-bar{display:flex;gap:8px;padding:8px 16px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--GBOR);flex-shrink:0}
 .esb-item{flex:1;text-align:center}
 .esb-lbl{font-size:9px;color:var(--TXT3);font-weight:600;text-transform:uppercase}
@@ -429,24 +345,21 @@ body.light .gls-dd-item.selected{background:rgba(124,77,255,.12);color:#1a237e}
 .edit-amt-card .eac-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .edit-amt-card .eac-title{font-size:11px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px}
 .edit-amt-card .eac-current{font-size:13px;font-weight:800;color:var(--GOLD)}
-.edit-amt-card .eac-row{display:flex;flex-direction:column;gap:8px}
-.edit-amt-card input{width:100%;padding:12px 14px;border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;font-size:18px;font-weight:700;font-family:'Inter',sans-serif;background:rgba(255,255,255,0.08);color:#fff;outline:none;-webkit-appearance:none;text-align:center;letter-spacing:1px}
+.edit-amt-card .eac-row{display:flex;gap:8px;align-items:center}
+.edit-amt-card input{flex:1;padding:11px 13px;border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;background:rgba(255,255,255,0.08);color:#fff;outline:none;-webkit-appearance:none}
 .edit-amt-card input:focus{border-color:var(--GOLD);background:rgba(255,255,255,0.12)}
-.edit-amt-card input::placeholder{color:rgba(255,255,255,0.3);font-size:13px;font-weight:400;letter-spacing:0;text-align:left}
-.edit-amt-card .eac-btn{width:100%;padding:13px 16px;border-radius:10px;border:none;font-weight:800;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
-.edit-amt-card .eac-btn.house{background:linear-gradient(135deg,rgba(124,77,255,.9),rgba(99,102,241,.9));color:#fff}
-.edit-amt-card .eac-btn.car{background:linear-gradient(135deg,rgba(249,168,37,.9),rgba(239,108,0,.85));color:#fff}
+.edit-amt-card input::placeholder{color:rgba(255,255,255,0.3);font-size:13px;font-weight:400}
+.edit-amt-card .eac-btn{padding:11px 16px;border-radius:10px;border:none;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.edit-amt-card .eac-btn.house{background:linear-gradient(135deg,rgba(124,77,255,.8),rgba(99,102,241,.8));color:#fff}
+.edit-amt-card .eac-btn.car{background:linear-gradient(135deg,rgba(249,168,37,.85),rgba(239,108,0,.75));color:#fff}
 .edit-amt-card .eac-note{font-size:10px;color:var(--TXT3);margin-top:8px;line-height:1.5}
-body.light .edit-amt-card input{background:#f5f5f5;color:#1a1a2e;border-color:#ddd}
-body.light .edit-amt-card input::placeholder{color:#aaa}
 .gauge-wrap{display:flex;flex-direction:column;gap:12px;padding:4px 0}
 .gauge-item{text-align:center}
 .gauge-lbl{font-size:10px;color:var(--TXT3);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 
 /* ─── YEARLY ─── */
-.year-tabs{display:flex;gap:6px;padding:12px 16px 0;flex-shrink:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.year-tabs::-webkit-scrollbar{display:none}
-.ytab{flex-shrink:0;padding:8px 14px;border-radius:10px;border:1px solid var(--GBOR);background:var(--GLASS);color:var(--TXT3);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;backdrop-filter:var(--BLUR2);white-space:nowrap}
+.year-tabs{display:flex;gap:6px;padding:12px 16px 0;flex-shrink:0}
+.ytab{flex:1;padding:9px;border-radius:10px;border:1px solid var(--GBOR);background:var(--GLASS);color:var(--TXT3);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;backdrop-filter:var(--BLUR2)}
 .ytab.active{background:linear-gradient(135deg,rgba(124,77,255,.5),rgba(99,102,241,.4));color:#fff;border-color:rgba(124,77,255,.5)}
 .year-summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px 0}
 .ys-card{padding:13px}
@@ -554,11 +467,11 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
 <div class="hdr">
   <div class="hdr-inner">
     <div class="hdr-left">
-      <div class="hdr-logo" style="background:none;border:none;padding:1px;box-shadow:none;width:42px;height:42px">
-        <svg viewBox="0 0 100 100" width="42" height="42" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="48" fill="#f7f2e8" stroke="#c9a84c" stroke-width="1.8"/>
-          <circle cx="50" cy="50" r="41" fill="none" stroke="#c9a84c" stroke-width="0.9"/>
-          <text x="50" y="64" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="34" fill="#7a5418" font-weight="400" letter-spacing="3">JM</text>
+      <div class="hdr-logo" style="background:none;border:none;padding:0;box-shadow:none">
+        <svg viewBox="0 0 80 80" width="38" height="38" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="37" fill="#f5f0e8" stroke="#c9a84c" stroke-width="1.2"/>
+          <circle cx="40" cy="40" r="32" fill="none" stroke="#c9a84c" stroke-width="0.6"/>
+          <text x="40" y="52" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="26" fill="#7a5c1e" font-weight="400" letter-spacing="1">JM</text>
         </svg>
       </div>
       <div class="hdr-title"><h2>J &amp; M Budget</h2><span>Family Finance Tracker</span></div>
@@ -596,39 +509,18 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     <input type="file" id="familyPhotoInput" accept="image/*" onchange="handlePhotoUpload(event)"/>
   </div>
 
-  <!-- KWD Rate Bar -->
-  <div class="kwd-rate-bar" id="kwdRateBar">
-    <span class="krb-flag">🇰🇼</span>
-    <span>1 KWD =</span>
-    <span class="krb-rate" id="kwdRateDisplay">loading…</span>
-    <span>INR</span>
-    <span class="krb-date" id="kwdRateDate"></span>
-    <button onclick="fetchKWDRate(true)" style="background:none;border:none;color:var(--GOLD);cursor:pointer;font-size:11px;padding:0;margin-left:4px" title="Refresh rate">🔄</button>
-  </div>
   <!-- Jeremiah 17:7-8 verse -->
-  <div class="verse-banner" style="margin-top:8px">
+  <div class="verse-banner" style="margin-top:12px">
     "But blessed is the one who trusts in the Lord, whose confidence is in him. They will be like a tree planted by the water that sends out its roots by the stream."
     <span class="vref">— Jeremiah 17:7-8</span>
   </div>
 
-  <!-- Month navigation bar -->
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 6px">
-    <span style="font-size:11px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.8px">Overview</span>
-    <div style="display:flex;align-items:center;gap:6px">
-      <button onclick="homeChMonth(-1)" style="width:32px;height:32px;border-radius:50%;border:1px solid var(--GBOR2);background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);color:var(--TXT2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s" id="home-prev-btn">&#8249;</button>
-      <div style="text-align:center;min-width:130px">
-        <div style="font-size:14px;font-weight:800;color:var(--GOLD)" id="home-month-lbl">June 2026</div>
-        <div style="font-size:9px;color:var(--TXT3);margin-top:1px" id="home-month-rel">Current month</div>
-      </div>
-      <button onclick="homeChMonth(1)" style="width:32px;height:32px;border-radius:50%;border:1px solid var(--GBOR2);background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);color:var(--TXT2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s" id="home-next-btn">&#8250;</button>
-    </div>
-    <span style="font-size:9px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px;cursor:pointer;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid var(--GBOR)" onclick="homeGoToday()">Today</span>
-  </div>
-  <div class="kpi-grid" id="kpi-grid-id">
-    <div class="kpi glass2 inc"><div class="kpi-ico">💰</div><div class="kpi-lbl">Income</div><div class="kpi-val inc" id="k-inc">₹0</div><div class="kpi-kwd" id="k-inc-kwd"></div><div class="kpi-sub" id="k-inc-sub">0 entries</div></div>
-    <div class="kpi glass2 exp"><div class="kpi-ico">💸</div><div class="kpi-lbl">Expenses</div><div class="kpi-val exp" id="k-exp">₹0</div><div class="kpi-kwd" id="k-exp-kwd"></div><div class="kpi-sub" id="k-exp-sub">0 entries</div></div>
-    <div class="kpi glass2 sav"><div class="kpi-ico">🏦</div><div class="kpi-lbl">Saved/Invested</div><div class="kpi-val sav" id="k-sav">₹0</div><div class="kpi-kwd" id="k-sav-kwd"></div><div class="kpi-sub" id="k-sav-sub">0 entries</div></div>
-    <div class="kpi glass2 bal"><div class="kpi-ico">📊</div><div class="kpi-lbl">Net Balance</div><div class="kpi-val bal" id="k-bal">₹0</div><div class="kpi-kwd" id="k-bal-kwd"></div><div class="kpi-sub">Income − Expenses</div></div>
+  <div class="sec-lbl">This Month Overview <span id="home-month-lbl" style="color:var(--GOLD)"></span></div>
+  <div class="kpi-grid">
+    <div class="kpi glass2 inc"><div class="kpi-ico">💰</div><div class="kpi-lbl">Income</div><div class="kpi-val inc" id="k-inc">₹0</div><div class="kpi-sub" id="k-inc-sub">0 entries</div></div>
+    <div class="kpi glass2 exp"><div class="kpi-ico">💸</div><div class="kpi-lbl">Expenses</div><div class="kpi-val exp" id="k-exp">₹0</div><div class="kpi-sub" id="k-exp-sub">0 entries</div></div>
+    <div class="kpi glass2 sav"><div class="kpi-ico">🏦</div><div class="kpi-lbl">Saved/Invested</div><div class="kpi-val sav" id="k-sav">₹0</div><div class="kpi-sub" id="k-sav-sub">0 entries</div></div>
+    <div class="kpi glass2 bal"><div class="kpi-ico">📊</div><div class="kpi-lbl">Net Balance</div><div class="kpi-val bal" id="k-bal">₹0</div><div class="kpi-sub">Income − Expenses</div></div>
     <div class="kpi glass2 dbt"><div class="kpi-ico">📋</div><div class="kpi-lbl">Net Debt Owed</div><div class="kpi-val dbt" id="k-dbt">₹0</div><div class="kpi-sub" id="k-dbt-sub">received − returned</div></div>
     <div class="kpi glass2 inv"><div class="kpi-ico">📈</div><div class="kpi-lbl">Savings Rate</div><div class="kpi-val inv" id="k-rate">0%</div><div class="kpi-sub">of income saved</div></div>
   </div>
@@ -662,24 +554,8 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     <span class="vref">— Philippians 4:19</span>
   </div>
   <div class="ent-selectors">
-    <!-- Year custom glass dropdown -->
-    <div class="gls-dd" id="dd-year">
-      <button class="gls-dd-btn" onclick="toggleDD('year')" id="dd-year-btn">
-        <span class="dd-label" id="dd-year-lbl">2026</span>
-        <span class="dd-badge">Year</span>
-        <span class="dd-icon">▾</span>
-      </button>
-      <div class="gls-dd-panel" id="dd-year-panel"></div>
-    </div>
-    <!-- Month custom glass dropdown -->
-    <div class="gls-dd" id="dd-month">
-      <button class="gls-dd-btn" onclick="toggleDD('month')" id="dd-month-btn">
-        <span class="dd-label" id="dd-month-lbl">January</span>
-        <span class="dd-badge">Month</span>
-        <span class="dd-icon">▾</span>
-      </button>
-      <div class="gls-dd-panel" id="dd-month-panel"></div>
-    </div>
+    <div class="ent-sel"><select id="ent-year" onchange="entSelChange()"></select></div>
+    <div class="ent-sel"><select id="ent-month" onchange="entSelChange()"></select></div>
   </div>
   <div class="ent-summary-bar">
     <div class="esb-item"><div class="esb-lbl">Income</div><div class="esb-val" style="color:#81c784" id="ent-s-inc">₹0</div></div>
@@ -809,24 +685,7 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     </div>
 
     <div class="sec-lbl">Savings Growth Chart</div>
-    <div class="chart-card glass">
-      <div class="chart-title">🏠 House Fund vs 🚗 Car Fund — Cumulative Progress</div>
-      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-        <div style="flex:1;min-width:100px;background:rgba(179,136,255,.12);border:1px solid rgba(179,136,255,.3);border-radius:10px;padding:10px;text-align:center">
-          <div style="font-size:10px;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px">House Saved</div>
-          <div style="font-size:16px;font-weight:800;color:#b388ff;margin-top:4px" id="chart-h-total">₹0</div>
-        </div>
-        <div style="flex:1;min-width:100px;background:rgba(249,168,37,.12);border:1px solid rgba(249,168,37,.3);border-radius:10px;padding:10px;text-align:center">
-          <div style="font-size:10px;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px">Car Saved</div>
-          <div style="font-size:16px;font-weight:800;color:var(--GOLD);margin-top:4px" id="chart-c-total">₹0</div>
-        </div>
-        <div style="flex:1;min-width:100px;background:rgba(239,83,80,.1);border:1px solid rgba(239,83,80,.2);border-radius:10px;padding:10px;text-align:center">
-          <div style="font-size:10px;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px">House Target</div>
-          <div style="font-size:16px;font-weight:800;color:#ef9a9a;margin-top:4px">₹1 Cr</div>
-        </div>
-      </div>
-      <div class="chart-wrap tall"><canvas id="ch-goals"></canvas></div>
-    </div>
+    <div class="chart-card glass"><div class="chart-title">House Fund vs Car Fund vs ₹1 Cr Target</div><div class="chart-wrap tall"><canvas id="ch-goals"></canvas></div></div>
   </div>
 </div>
 
@@ -837,13 +696,10 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
     "Commit to the Lord whatever you do, and he will establish your plans."
     <span class="vref">— Proverbs 16:3</span>
   </div>
-  <div class="year-tabs" id="year-tabs-row">
+  <div class="year-tabs">
     <button class="ytab active" id="yt-2026" onclick="setYear(2026)">2026</button>
     <button class="ytab" id="yt-2027" onclick="setYear(2027)">2027</button>
     <button class="ytab" id="yt-2028" onclick="setYear(2028)">2028</button>
-    <button class="ytab" id="yt-2029" onclick="setYear(2029)">2029</button>
-    <button class="ytab" id="yt-2030" onclick="setYear(2030)">2030</button>
-    <button class="ytab" id="yt-2031" onclick="setYear(2031)">2031</button>
   </div>
   <div class="pg-scroll">
     <div class="year-summary-grid" id="yr-grid"></div>
@@ -867,9 +723,9 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
       <div class="step"><div class="stepn">3</div><div>Realtime Database → Create → Start in <strong>test mode</strong></div></div>
       <div class="step"><div class="stepn">4</div><div>Paste below → tap Connect</div></div>
       <div class="cfg-f"><label>API Key</label><input id="cak" value="AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY"/></div>
-      <div class="cfg-f"><label>Auth Domain</label><input id="cad" value="jm-project-new.firebaseapp.com"/></div>
-      <div class="cfg-f"><label>Database URL</label><input id="cdu" value="https://jm-project-new-default-rtdb.firebaseio.com"/></div>
-      <div class="cfg-f"><label>Project ID</label><input id="cpi" value="jm-project-new"/></div>
+      <div class="cfg-f"><label>Auth Domain</label><input id="cad" value="jmbudget-be846.firebaseapp.com"/></div>
+      <div class="cfg-f"><label>Database URL</label><input id="cdu" value="https://jmbudget-be846-default-rtdb.firebaseio.com"/></div>
+      <div class="cfg-f"><label>Project ID</label><input id="cpi" value="jmbudget-be846"/></div>
       <div class="cfg-f"><label>App ID</label><input id="cai" value="1:765462801827:web:72ada08c6f577983793e16"/></div>
       <button class="fbbtn" onclick="connectFB()">🔥 Connect Firebase</button>
       <div class="fb-status" id="fb-status"></div>
@@ -913,29 +769,12 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
         <button class="tseg" id="ts-sav" onclick="setMoType('sav')">🏦 Savings</button>
         <button class="tseg" id="ts-dbt" onclick="setMoType('dbt')">📋 Debt</button>
       </div>
-      <!-- Currency selector (only shown for Boss/Johnson entries) -->
-      <div class="curr-seg" id="curr-seg">
-        <button class="curr-btn active inr" id="curr-inr" onclick="setCurr('INR')">₹ Indian Rupee (INR)</button>
-        <button class="curr-btn kwd" id="curr-kwd" onclick="setCurr('KWD')">🇰🇼 Kuwaiti Dinar (KWD)</button>
-      </div>
-      <!-- KWD live conversion preview -->
-      <div class="kwd-preview" id="kwdPreview">
-        <div class="kp-row">
-          <span class="kp-kwd" id="kp-kwd-val">KD 0</span>
-          <span class="kp-arrow">→</span>
-          <span class="kp-inr" id="kp-inr-val">₹0</span>
-        </div>
-        <div class="kp-rate" id="kp-rate-lbl">Rate: 1 KWD = loading…</div>
-      </div>
-      <div class="fld">
-        <label id="fa-label">Amount (₹ INR)</label>
-        <input type="number" class="big-amt" id="fa" placeholder="0.00" inputmode="decimal" oninput="onAmountInput()"/>
-      </div>
+      <div class="fld"><label>Amount (₹)</label><input type="number" class="big-amt" id="fa" placeholder="0.00" inputmode="decimal"/></div>
       <div class="fld"><label>Description</label><input type="text" id="fd" placeholder="e.g. Salary, Rent, Gold savings…"/></div>
       <div class="fld"><label>Category</label><select id="fcat"></select></div>
       <div class="frow">
         <div class="fld"><label>Date</label><input type="date" id="fdate"/></div>
-        <div class="fld"><label>By</label><select id="fby" onchange="onByChange()"><option value="Boss">Boss (Johnson)</option><option value="Darling">Darling (Melba)</option><option value="Both">Both</option></select></div>
+        <div class="fld"><label>By</label><select id="fby"><option value="Boss">Boss (Johnson)</option><option value="Darling">Darling (Melba)</option><option value="Both">Both</option></select></div>
       </div>
       <!-- Debt extra fields -->
       <div id="dbt-extra" style="display:none">
@@ -981,71 +820,7 @@ const CATS={
 const ICONS={exp:'shopping_cart',inc:'payments',sav:'savings',dbt:'account_balance'};
 
 const NOW=new Date();
-let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),homeY:NOW.getFullYear(),homeM:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson',privacy:false,darkMode:localStorage.getItem('jmTheme')!=='light',currency:'INR'};
-
-// ── KWD / INR Currency ──
-let kwdRate = parseFloat(localStorage.getItem('jmKWDRate')) || 275.0;
-const KWD_FALLBACK = 275.0;
-
-async function fetchKWDRate(force=false){
-  const stored = localStorage.getItem('jmKWDRate');
-  const storedDate = localStorage.getItem('jmKWDRateDate');
-  const today = new Date().toISOString().split('T')[0];
-  if(!force && stored && storedDate===today){ kwdRate=parseFloat(stored); updateRateUI(); return; }
-  try{
-    const res = await fetch('https://api.exchangerate-api.com/v4/latest/KWD');
-    const data = await res.json();
-    kwdRate = parseFloat(data.rates.INR.toFixed(2));
-    localStorage.setItem('jmKWDRate', kwdRate);
-    localStorage.setItem('jmKWDRateDate', today);
-    updateRateUI();
-    toast('🔄 Rate updated: 1 KWD = ₹'+kwdRate);
-  }catch(e){
-    // Try backup API
-    try{
-      const r2 = await fetch('https://open.er-api.com/v6/latest/KWD');
-      const d2 = await r2.json();
-      kwdRate = parseFloat(d2.rates.INR.toFixed(2));
-      localStorage.setItem('jmKWDRate', kwdRate);
-      localStorage.setItem('jmKWDRateDate', today);
-      updateRateUI();
-    }catch(e2){ kwdRate = parseFloat(stored||KWD_FALLBACK); updateRateUI(); }
-  }
-}
-function updateRateUI(){
-  const el=document.getElementById('kwdRateDisplay'); if(el) el.textContent='₹'+kwdRate;
-  const de=document.getElementById('kwdRateDate');
-  if(de){ const d=localStorage.getItem('jmKWDRateDate');de.textContent=d?'('+d+')':''; }
-  document.getElementById('kp-rate-lbl').textContent='Rate: 1 KWD = ₹'+kwdRate;
-}
-function setCurr(c){
-  S.currency=c;
-  document.getElementById('curr-inr').classList.toggle('active',c==='INR');
-  document.getElementById('curr-kwd').classList.toggle('active',c==='KWD');
-  document.getElementById('curr-inr').classList.toggle('inr',c==='INR');
-  document.getElementById('curr-kwd').classList.toggle('kwd',c==='KWD');
-  document.getElementById('fa-label').textContent = c==='KWD'?'Amount (KD — Kuwaiti Dinar)':'Amount (₹ INR)';
-  document.getElementById('fa').placeholder = c==='KWD'?'0.000':'0.00';
-  document.getElementById('fa').value='';
-  document.getElementById('kwdPreview').classList.remove('show');
-}
-function onByChange(){
-  const by=document.getElementById('fby').value;
-  const seg=document.getElementById('curr-seg');
-  // Only Boss (Johnson) sees KWD option since he's in Kuwait
-  if(by==='Boss'){ seg.style.display='flex'; }
-  else{ seg.style.display='none'; setCurr('INR'); }
-}
-function onAmountInput(){
-  if(S.currency!=='KWD'){ document.getElementById('kwdPreview').classList.remove('show'); return; }
-  const val=parseFloat(document.getElementById('fa').value)||0;
-  if(val<=0){ document.getElementById('kwdPreview').classList.remove('show'); return; }
-  const inr = parseFloat((val*kwdRate).toFixed(2));
-  document.getElementById('kp-kwd-val').textContent='KD '+val.toFixed(3);
-  document.getElementById('kp-inr-val').textContent='₹'+inr.toLocaleString('en-IN');
-  document.getElementById('kwdPreview').classList.add('show');
-}
-function fmtKWD(kwd){ if(!kwd||kwd===0) return ''; return 'KD '+parseFloat(kwd).toFixed(3); }
+let S={curPg:'home',curEntTab:'exp',y:NOW.getFullYear(),m:NOW.getMonth(),entY:NOW.getFullYear(),entM:NOW.getMonth(),yrPlan:NOW.getFullYear(),editId:null,moType:'exp',user:localStorage.getItem('jmU')||'Johnson',privacy:false,darkMode:localStorage.getItem('jmTheme')!=='light'};
 let LD={};try{LD=JSON.parse(localStorage.getItem('jmD')||'{}');}catch(e){LD={};}
 let toastT,fbDB=null,charts={};
 let curEntTab='exp';
@@ -1070,7 +845,7 @@ function loadFB(cfg){
       try{
         if(!firebase.apps.length)firebase.initializeApp(cfg);
         fbDB=firebase.database();setSdot('sync');
-        firebase.database().ref('jm-project-new').on('value',snap=>{
+        firebase.database().ref('jmbudget').on('value',snap=>{
           const d=snap.val();if(d){LD=d;localStorage.setItem('jmD',JSON.stringify(LD));}
           setSdot('on');setFbSt('✅ Connected — live sync active');refreshAll();
         },err=>{setSdot('off');setFbSt('❌ '+err.message);});
@@ -1078,8 +853,8 @@ function loadFB(cfg){
     });
   });
 }
-function fbSet(path,data){setLP(path,data);save();if(fbDB){setSdot('sync');fbDB.ref('jm-project-new/'+path).set(data).then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
-function fbDel(path){delLP(path);save();if(fbDB){fbDB.ref('jm-project-new/'+path).remove().then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
+function fbSet(path,data){setLP(path,data);save();if(fbDB){setSdot('sync');fbDB.ref('jmbudget/'+path).set(data).then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
+function fbDel(path){delLP(path);save();if(fbDB){fbDB.ref('jmbudget/'+path).remove().then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
 function setLP(path,data){const p=path.split('/');let o=LD;for(let i=0;i<p.length-1;i++){if(!o[p[i]])o[p[i]]={};o=o[p[i]];}o[p[p.length-1]]=data;}
 function delLP(path){const p=path.split('/');let o=LD;try{for(let i=0;i<p.length-1;i++)o=o[p[i]];delete o[p[p.length-1]];}catch(e){}}
 
@@ -1129,8 +904,7 @@ function refreshAll(){
 // ── HOME ──
 function renderHome(){
   const now=new Date();
-  const hY=S.homeY, hM=S.homeM;
-  const txns=getTxns(hY,hM);
+  const txns=getTxns(now.getFullYear(),now.getMonth());
   let inc=0,exp=0,sav=0,ni=0,ne=0,ns=0;
   Object.values(txns).forEach(t=>{
     if(t.type==='inc'){inc+=t.amount;ni++;}
@@ -1140,38 +914,12 @@ function renderHome(){
   const netDbt=calcNetDebt(txns);
   const bal=inc-exp;
   const rate=inc>0?((inc-exp)/inc*100):0;
-  // Month label + relative indicator
-  set('home-month-lbl',MN[hM]+' '+hY);
-  const todayY=now.getFullYear(),todayM=now.getMonth();
-  const diff=(hY-todayY)*12+(hM-todayM);
-  const relLbl = diff===0?'Current month':diff===-1?'Last month':diff===1?'Next month':diff<0?Math.abs(diff)+' months ago':diff+' months ahead';
-  set('home-month-rel',relLbl);
-  // Style next button — dim if in future beyond current
-  const nextBtn=document.getElementById('home-next-btn');
-  if(nextBtn)nextBtn.style.opacity=(hY>todayY||(hY===todayY&&hM>=todayM))?'0.35':'1';
+  set('home-month-lbl',MN[now.getMonth()]+' '+now.getFullYear());
   set('k-inc',fmt(inc));set('k-exp',fmt(exp));set('k-sav',fmt(sav));
   set('k-dbt',fmt(netDbt));set('k-rate',rate.toFixed(1)+'%');
   set('k-inc-sub',ni+' entr'+(ni===1?'y':'ies'));
   set('k-exp-sub',ne+' entr'+(ne===1?'y':'ies'));
   set('k-sav-sub',ns+' entr'+(ns===1?'y':'ies'));
-  // KWD sub-totals (Boss/Johnson entries in KWD only)
-  let kwdInc=0,kwdExp=0,kwdSav=0;
-  Object.values(txns).forEach(t=>{
-    if(t.by==='Boss'&&t.kwdAmt){
-      if(t.type==='inc')kwdInc+=t.kwdAmt;
-      else if(t.type==='exp')kwdExp+=t.kwdAmt;
-      else if(t.type==='sav')kwdSav+=t.kwdAmt;
-    }
-  });
-  const pm=S.privacy;
-  const kwdBal=kwdInc-kwdExp;
-  function setKWDEl(id,kwd){
-    const el=document.getElementById(id);if(!el)return;
-    if(kwd>0){el.textContent=pm?'KD ••••':'KD '+kwd.toFixed(3);el.className='kpi-kwd'+(pm?' masked':'');}
-    else{el.textContent='';}
-  }
-  setKWDEl('k-inc-kwd',kwdInc);setKWDEl('k-exp-kwd',kwdExp);setKWDEl('k-sav-kwd',kwdSav);
-  setKWDEl('k-bal-kwd',Math.abs(kwdBal));
   const balEl=document.getElementById('k-bal');
   if(balEl){balEl.textContent=(bal<0?'-':'')+fmt(bal);balEl.style.color=bal<0?'#ef9a9a':'#b388ff';}
   const g=getGoals();
@@ -1182,27 +930,10 @@ function renderHome(){
   const cp=Math.min(100,ct>0?(cs/ct)*100:0);
   set('cm-pct',cp.toFixed(1)+'%');document.getElementById('cm-bar').style.width=cp+'%';
   set('cm-sub',ct>0?fmt(cs)+' saved of '+fmt(ct):fmt(cs)+' saved · Set target in Goals tab');
-  const vv=VERSES[(hY*12+hM)%VERSES.length];
+  const vv=VERSES[(now.getFullYear()*12+now.getMonth())%VERSES.length];
   set('home-verse-mini','"'+vv.t.slice(0,55)+'…" — '+vv.r);
   const ph=localStorage.getItem('jmPhoto');
   if(ph){const img=document.getElementById('familyPhoto');img.src=ph;img.classList.add('loaded');document.getElementById('photoPlaceholder').style.display='none';set('photoUploadLbl','Change Photo');}
-}
-
-// ── HOME MONTH NAVIGATION ──
-function homeChMonth(dir){
-  S.homeM+=dir;
-  if(S.homeM<0){S.homeM=11;S.homeY--;}
-  if(S.homeM>11){S.homeM=0;S.homeY++;}
-  renderHome();
-  // Animate the KPI cards
-  const grid=document.getElementById('kpi-grid-id');
-  if(grid){grid.style.opacity='0';grid.style.transform='translateX('+(dir>0?'20px':'-20px')+')';
-    setTimeout(()=>{grid.style.transition='opacity .25s,transform .25s';grid.style.opacity='1';grid.style.transform='translateX(0)';},50);}
-}
-function homeGoToday(){
-  const now=new Date();
-  S.homeY=now.getFullYear();S.homeM=now.getMonth();
-  renderHome();
 }
 
 // ── CHARTS ──
@@ -1283,88 +1014,13 @@ function drawGauge(id,pct,color){
 }
 
 // ── ENTRIES ──
-// ── Custom Glass Dropdown ──
-const MN_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-function buildDropdowns(){
-  // Year panel: 2026–2050
-  const yp = document.getElementById('dd-year-panel');
-  if(yp){
-    yp.innerHTML='';
-    for(let y=2026;y<=2050;y++){
-      const d=document.createElement('div');
-      d.className='gls-dd-item'+(y===S.entY?' selected':'');
-      d.textContent=y;
-      d.onclick=()=>selectDD('year',y,String(y));
-      yp.appendChild(d);
-    }
-  }
-  // Month panel
-  const mp=document.getElementById('dd-month-panel');
-  if(mp){
-    mp.innerHTML='';
-    MN_FULL.forEach((m,i)=>{
-      const d=document.createElement('div');
-      d.className='gls-dd-item'+(i===S.entM?' selected':'');
-      d.textContent=m;
-      d.onclick=()=>selectDD('month',i,m);
-      mp.appendChild(d);
-    });
-  }
-  // Update button labels
-  document.getElementById('dd-year-lbl').textContent=S.entY;
-  document.getElementById('dd-month-lbl').textContent=MN_FULL[S.entM];
-  // Scroll selected year into view
-  setTimeout(()=>{
-    const sel=yp&&yp.querySelector('.selected');
-    if(sel)sel.scrollIntoView({block:'center'});
-  },50);
-}
-
-function toggleDD(which){
-  const panel=document.getElementById('dd-'+which+'-panel');
-  const btn=document.getElementById('dd-'+which+'-btn');
-  const isOpen=panel.classList.contains('open');
-  // Close all
-  document.querySelectorAll('.gls-dd-panel').forEach(p=>p.classList.remove('open'));
-  document.querySelectorAll('.gls-dd-btn').forEach(b=>b.classList.remove('open'));
-  if(!isOpen){
-    panel.classList.add('open');
-    btn.classList.add('open');
-    // Scroll selected into view
-    setTimeout(()=>{
-      const sel=panel.querySelector('.selected');
-      if(sel)sel.scrollIntoView({block:'center',behavior:'instant'});
-    },30);
-  }
-}
-
-function selectDD(which,val,label){
-  if(which==='year'){S.entY=val;document.getElementById('dd-year-lbl').textContent=label;}
-  else{S.entM=val;document.getElementById('dd-month-lbl').textContent=label;}
-  // Update selected styling
-  document.querySelectorAll('#dd-'+which+'-panel .gls-dd-item').forEach(d=>{
-    const match = which==='year'?parseInt(d.textContent)===val:MN_FULL.indexOf(d.textContent)===val;
-    d.classList.toggle('selected',match);
-  });
-  // Close panel
-  document.getElementById('dd-'+which+'-panel').classList.remove('open');
-  document.getElementById('dd-'+which+'-btn').classList.remove('open');
-  renderEntries();
-}
-
-// Close dropdowns when clicking outside
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.gls-dd')){
-    document.querySelectorAll('.gls-dd-panel').forEach(p=>p.classList.remove('open'));
-    document.querySelectorAll('.gls-dd-btn').forEach(b=>b.classList.remove('open'));
-  }
-});
-
 function populateEntSelectors(){
-  buildDropdowns();
+  const ys=document.getElementById('ent-year'),ms=document.getElementById('ent-month');
+  if(!ys||!ms)return;
+  ys.innerHTML='';for(let y=2026;y<=2028;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===S.entY)o.selected=true;ys.appendChild(o);}
+  ms.innerHTML='';MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===S.entM)o.selected=true;ms.appendChild(o);});
 }
-function entSelChange(){renderEntries();} // legacy - now handled by selectDD
+function entSelChange(){S.entY=parseInt(v('ent-year'));S.entM=parseInt(document.getElementById('ent-month').value);renderEntries();}
 function setEntTab(t){curEntTab=t;['exp','inc','sav','dbt'].forEach(x=>document.getElementById('et-'+x).classList.remove('active'));document.getElementById('et-'+t).classList.add('active');renderEntBody();}
 
 function renderEntries(){
@@ -1389,24 +1045,16 @@ function renderEntBody(){
   if(t==='dbt'){
     const recv=items.reduce((s,[,tx])=>s+tx.amount,0);
     const ret=items.reduce((s,[,tx])=>s+(tx.returned||0),0);
-    const net=Math.max(0,recv-ret);
-    // Compact font for large numbers (6+ digits)
-    const isLarge = recv>=100000||ret>=100000;
-    const fs = isLarge?'9px':'11px';
-    totalDisplay=`<div style="font-size:${fs};line-height:1.5;text-align:right;max-width:180px">
-      <span style="color:#ce93d8;font-weight:700">${fmt(recv)}</span><span style="color:rgba(255,255,255,.4)"> recv</span><br/>
-      <span style="color:rgba(255,255,255,.4)">− </span><span style="color:#81c784;font-weight:700">${fmt(ret)}</span><span style="color:rgba(255,255,255,.4)"> ret</span><br/>
-      <span style="color:rgba(255,255,255,.4)">= </span><span style="color:#ef9a9a;font-weight:800">${fmt(net)}</span><span style="color:rgba(255,255,255,.4)"> net</span>
-    </div>`;
+    totalDisplay=`<span style="color:#ce93d8">${fmt(recv)} recv</span> <span style="color:rgba(255,255,255,.4)">−</span> <span style="color:#81c784">${fmt(ret)} ret</span> <span style="color:rgba(255,255,255,.4)">=</span> <span style="color:#ef9a9a">${fmt(Math.max(0,recv-ret))} net</span>`;
   }else{
     const tot=items.reduce((s,[,tx])=>s+tx.amount,0);
     const cls={exp:'exp',inc:'inc',sav:'sav',dbt:'dbt'}[t];
     totalDisplay=`<span class="esh-total ${cls}">${fmt(tot)}</span>`;
   }
 
-  let html=`<div class="ent-section-hdr" style="align-items:${t==='dbt'?'flex-start':'center'}">
+  let html=`<div class="ent-section-hdr">
     <div class="esh-left"><div class="esh-ico ${t}"><span class="material-icons-round">${ICONS[t]}</span></div><div class="esh-title">${labels[t]}</div></div>
-    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">${totalDisplay}<button class="add-btn" onclick="openAddModal('${t}')"><span class="material-icons-round" style="font-size:14px">add</span>Add</button></div>
+    <div style="display:flex;align-items:center;gap:10px">${totalDisplay}<button class="add-btn" onclick="openAddModal('${t}')"><span class="material-icons-round" style="font-size:14px">add</span>Add</button></div>
   </div>`;
 
   if(!items.length){
@@ -1446,12 +1094,8 @@ function openAddModal(type){
   set('mo-ttl','Add Entry');
   document.getElementById('fa').value='';document.getElementById('fd').value='';
   document.getElementById('fdate').value=new Date().toISOString().split('T')[0];
-  const byVal=S.user==='Johnson'?'Boss':'Darling';
-  document.getElementById('fby').value=byVal;
+  document.getElementById('fby').value=S.user==='Johnson'?'Boss':'Darling';
   document.getElementById('fret').value='';document.getElementById('fretdate').value='';
-  // Show/hide KWD option
-  document.getElementById('curr-seg').style.display=byVal==='Boss'?'flex':'none';
-  setCurr('INR'); // always default to INR on open
   setMoType(t);
   document.getElementById('addMo').classList.add('active');
   setTimeout(()=>document.getElementById('fa').focus(),300);
@@ -1476,13 +1120,6 @@ function editEntry(id){
   setTimeout(()=>{document.getElementById('fcat').value=tx.cat||'';},50);
   document.getElementById('fret').value=tx.returned||'';
   document.getElementById('fretdate').value=tx.retdate||'';
-  // Restore currency
-  const isBoss=tx.by==='Boss';
-  document.getElementById('curr-seg').style.display=isBoss?'flex':'none';
-  if(tx.kwdAmt&&isBoss){
-    setCurr('KWD');
-    setTimeout(()=>{document.getElementById('fa').value=tx.kwdAmt;onAmountInput();},60);
-  } else { setCurr('INR'); }
   document.getElementById('addMo').classList.add('active');
 }
 function delEntry(id){
@@ -1491,22 +1128,15 @@ function delEntry(id){
   renderEntries();renderHome();toast('Entry deleted');
 }
 function saveEntry(){
-  const rawAmt=parseFloat(v('fa'));const desc=v('fd');
-  if(!rawAmt||rawAmt<=0){toast('⚠ Enter a valid amount');return;}
+  const amt=parseFloat(v('fa'));const desc=v('fd');
+  if(!amt||amt<=0){toast('⚠ Enter a valid amount');return;}
   if(!desc){toast('⚠ Enter a description');return;}
   const id=S.editId||uid();
-  let inrAmt=rawAmt, kwdAmt=0;
-  if(S.currency==='KWD'){
-    kwdAmt=rawAmt;
-    inrAmt=parseFloat((rawAmt*kwdRate).toFixed(2));
-  }
-  const tx={type:S.moType,amount:inrAmt,desc,cat:document.getElementById('fcat').value,date:v('fdate'),by:v('fby'),ts:Date.now()};
-  if(kwdAmt>0){tx.kwdAmt=kwdAmt;tx.kwdRate=kwdRate;tx.currency='KWD';}
+  const tx={type:S.moType,amount:amt,desc,cat:document.getElementById('fcat').value,date:v('fdate'),by:v('fby'),ts:Date.now()};
   if(S.moType==='dbt'){tx.returned=parseFloat(v('fret'))||0;tx.retdate=v('fretdate')||'';}
   fbSet(mkey(S.entY,S.entM)+'/transactions/'+id,tx);
   closeMo('addMo');renderEntries();renderHome();
-  const amtLabel=kwdAmt>0?`KD ${kwdAmt.toFixed(3)} → ₹${inrAmt.toLocaleString('en-IN')}`:'₹'+inrAmt.toLocaleString('en-IN');
-  toast(S.editId?'✅ Entry updated':'✅ Saved: '+amtLabel);S.editId=null;
+  toast(S.editId?'✅ Entry updated':'✅ Entry saved');S.editId=null;
 }
 
 // ── GOALS ──
@@ -1545,43 +1175,19 @@ function drawGoalCharts(){
   set('gauge-c-pct',cp.toFixed(1)+'%');
   set('gauge-c-saved','Saved: '+fmt(cs));
   set('gauge-c-rem',ct>0?'Remaining: '+fmt(Math.max(0,ct-cs)):'Target not set');
-  // Bar chart — monthly contributions from entries
-  const labels=[],hBar=[],cBar=[];
+  // Line chart
+  const labels=[],hC=[],cC=[];let hR=0,cR=0;
   for(let y=2026;y<=2028;y++)for(let m=0;m<12;m++){
-    labels.push(MNS[m]+"'"+String(y).slice(2));
-    let hs=0,cs=0;
-    Object.values(getTxns(y,m)).forEach(t=>{
-      if(t.type==='sav'){
-        if(t.cat&&t.cat.includes('House'))hs+=t.amount;
-        if(t.cat&&t.cat.includes('Car'))cs+=t.amount;
-      }
-    });
-    hBar.push(hs);cBar.push(cs);
+    labels.push(MNS[m]+"'"+String(y).slice(2));let hs=0,cs=0;
+    Object.values(getTxns(y,m)).forEach(t=>{if(t.type==='sav'){if(t.cat&&t.cat.includes('House'))hs+=t.amount;if(t.cat&&t.cat.includes('Car'))cs+=t.amount;}});
+    hR+=hs;cR+=cs;hC.push(hR);cC.push(cR);
   }
-  // Cumulative line using total saved (manual + entries)
-  // Distribute manual savings evenly as a starting point in first bar
-  const hTotal=g.houseSaved||0, cTotal=g.carSaved||0;
-  const hEntTotal=hBar.reduce((a,b)=>a+b,0);
-  const cEntTotal=cBar.reduce((a,b)=>a+b,0);
-  // Cumulative arrays
-  const hCum=[],cCum=[];
-  let hR=Math.max(0,hTotal-hEntTotal),cR=Math.max(0,cTotal-cEntTotal);
-  for(let i=0;i<hBar.length;i++){hR+=hBar[i];cR+=cBar[i];hCum.push(hR);cCum.push(cR);}
-  const ht=g.houseTarget||10000000;
-  const goalLine=Array(labels.length).fill(ht);
-  // Update summary labels
-  const el1=document.getElementById('chart-h-total');if(el1)el1.textContent=fmt(hTotal);
-  const el2=document.getElementById('chart-c-total');if(el2)el2.textContent=fmt(cTotal);
-  mkChart('ch-goals','bar',labels,[
-    {label:'House Savings',data:hBar,backgroundColor:'rgba(179,136,255,0.65)',borderRadius:3,borderSkipped:false},
-    {label:'Car Savings',data:cBar,backgroundColor:'rgba(249,168,37,0.65)',borderRadius:3,borderSkipped:false},
-  ],{
-    plugins:{legend:{display:true}},
-    scales:{
-      x:{stacked:false,ticks:{color:'rgba(255,255,255,.4)',font:{size:8},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},
-      y:{ticks:{color:'rgba(255,255,255,.4)',font:{size:9},callback:n=>n>=100000?'₹'+(n/100000).toFixed(0)+'L':n>=1000?'₹'+(n/1000).toFixed(0)+'K':'₹'+n},grid:{color:'rgba(255,255,255,.05)'}},
-    },
-  });
+  const goalLine=Array(labels.length).fill(g.houseTarget||10000000);
+  mkChart('ch-goals','line',labels,[
+    {label:'House Fund',data:hC,borderColor:'#b388ff',backgroundColor:'rgba(179,136,255,.1)',tension:.4,fill:true,borderWidth:2,pointRadius:0},
+    {label:'Car Fund',data:cC,borderColor:'#f9a825',backgroundColor:'rgba(249,168,37,.07)',tension:.4,fill:true,borderWidth:2,pointRadius:0},
+    {label:'House Target',data:goalLine,borderColor:'rgba(239,83,80,.4)',borderDash:[6,4],borderWidth:1,pointRadius:0,fill:false},
+  ],{plugins:{legend:{display:true}}});
 }
 function addGoal(which){
   const inp=document.getElementById(which==='house'?'h-add-inp':'c-add-inp');
@@ -1611,7 +1217,7 @@ function saveCarTarget(){
 
 // ── YEARLY ──
 function setYear(y){
-  S.yrPlan=y;['2026','2027','2028','2029','2030','2031'].forEach(yr=>{const el=document.getElementById('yt-'+yr);if(el)el.classList.remove('active');});
+  S.yrPlan=y;['2026','2027','2028'].forEach(yr=>document.getElementById('yt-'+yr).classList.remove('active'));
   document.getElementById('yt-'+y).classList.add('active');renderYearly(y);drawYearlyCharts(y);
 }
 function renderYearly(yr){
@@ -1636,7 +1242,7 @@ function renderYearly(yr){
   set('yr-chart-lbl',String(yr));
 }
 function drawYearlyCharts(yr){
-  const yrs=[2026,2027,2028,2029,2030,2031],yi=[],ye=[],ys=[];
+  const yrs=[2026,2027,2028],yi=[],ye=[],ys=[];
   yrs.forEach(y=>{let i=0,e=0,s=0;for(let m=0;m<12;m++)Object.values(getTxns(y,m)).forEach(t=>{if(t.type==='inc')i+=t.amount;else if(t.type==='exp')e+=t.amount;else if(t.type==='sav')s+=t.amount;});yi.push(i);ye.push(e);ys.push(s);});
   mkChart('ch-yearly','bar',yrs.map(String),[
     {label:'Income',data:yi,backgroundColor:'rgba(129,199,132,.75)',borderRadius:6},
@@ -1664,7 +1270,7 @@ function exportData(){
 function clearCurrentMonth(){
   const now=new Date();if(!confirm('Delete ALL entries for '+MN[now.getMonth()]+' '+now.getFullYear()+'?'))return;
   const key=mkey(now.getFullYear(),now.getMonth());
-  if(fbDB)fbDB.ref('jm-project-new/'+key+'/transactions').remove();
+  if(fbDB)fbDB.ref('jmbudget/'+key+'/transactions').remove();
   if(LD[key])delete LD[key].transactions;save();renderHome();toast('🗑 Month cleared');
 }
 function togglePrivacy(){
@@ -1672,10 +1278,7 @@ function togglePrivacy(){
   const btn=document.getElementById('eyeBtn');
   if(btn)btn.innerHTML=`<span class="material-icons-round">${S.privacy?'visibility_off':'visibility'}</span>`;
   renderHome();
-  // Refresh KWD elements
-  document.querySelectorAll('.kpi-kwd,.kwd-sub').forEach(el=>{
-    if(S.privacy)el.classList.add('masked'); else el.classList.remove('masked');
-  });
+  // Also refresh entries summary
   if(S.curPg==='entries')renderEntries();
   toast(S.privacy?'🔒 Amounts hidden':'👁 Amounts visible');
 }
@@ -1761,19 +1364,17 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
   showVerse(0);const vInt=setInterval(()=>{vi=(vi+1)%VERSES.length;showVerse(vi);},3200);
 
   // Populate entry year/month selectors
-  // dropdowns built via buildDropdowns()
-  buildDropdowns(); // build glassmorphism year/month dropdowns
+  const ys=document.getElementById('ent-year'),ms=document.getElementById('ent-month');
+  if(ys){for(let y=2026;y<=2028;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===S.entY)o.selected=true;ys.appendChild(o);}}
+  if(ms){MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;if(i===S.entM)o.selected=true;ms.appendChild(o);});}
 
   // Auto-connect Firebase with pre-configured credentials
   const DEFAULT_FB = {
-    apiKey:            "AIzaSyCsPws12ktlKpBGeAT4lTOWcy0Uhkk1WLU",
-    authDomain:        "jm-project-new.firebaseapp.com",
-    databaseURL:       "https://jm-project-new-default-rtdb.firebaseio.com",
-    projectId:         "jm-project-new",
-    storageBucket:     "jm-project-new.firebasestorage.app",
-    messagingSenderId: "326705091870",
-    appId:             "1:326705091870:web:1fac308e2712e78500250f",
-    measurementId:     "G-6818DMQ0HE",
+    apiKey:      "AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY",
+    authDomain:  "jmbudget-be846.firebaseapp.com",
+    databaseURL: "https://jmbudget-be846-default-rtdb.firebaseio.com",
+    projectId:   "jmbudget-be846",
+    appId:       "1:765462801827:web:72ada08c6f577983793e16",
   };
   localStorage.setItem('jmFB', JSON.stringify(DEFAULT_FB));
   loadFB(DEFAULT_FB);
@@ -1785,7 +1386,6 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
     const ldr=document.getElementById('loader');ldr.style.opacity='0';
     setTimeout(()=>ldr.style.display='none',500);
     renderHome();drawHomeCharts();
-    fetchKWDRate(); // fetch live KWD rate on startup
   },4500);
 
   // Apply saved theme
