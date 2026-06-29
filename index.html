@@ -345,14 +345,16 @@ body::after{
 .edit-amt-card .eac-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .edit-amt-card .eac-title{font-size:11px;font-weight:700;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px}
 .edit-amt-card .eac-current{font-size:13px;font-weight:800;color:var(--GOLD)}
-.edit-amt-card .eac-row{display:flex;gap:8px;align-items:center}
-.edit-amt-card input{flex:1;padding:11px 13px;border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;background:rgba(255,255,255,0.08);color:#fff;outline:none;-webkit-appearance:none}
+.edit-amt-card .eac-row{display:flex;flex-direction:column;gap:8px}
+.edit-amt-card input{width:100%;padding:12px 14px;border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;font-size:18px;font-weight:700;font-family:'Inter',sans-serif;background:rgba(255,255,255,0.08);color:#fff;outline:none;-webkit-appearance:none;text-align:center;letter-spacing:1px}
 .edit-amt-card input:focus{border-color:var(--GOLD);background:rgba(255,255,255,0.12)}
-.edit-amt-card input::placeholder{color:rgba(255,255,255,0.3);font-size:13px;font-weight:400}
-.edit-amt-card .eac-btn{padding:11px 16px;border-radius:10px;border:none;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
-.edit-amt-card .eac-btn.house{background:linear-gradient(135deg,rgba(124,77,255,.8),rgba(99,102,241,.8));color:#fff}
-.edit-amt-card .eac-btn.car{background:linear-gradient(135deg,rgba(249,168,37,.85),rgba(239,108,0,.75));color:#fff}
+.edit-amt-card input::placeholder{color:rgba(255,255,255,0.3);font-size:13px;font-weight:400;letter-spacing:0;text-align:left}
+.edit-amt-card .eac-btn{width:100%;padding:13px 16px;border-radius:10px;border:none;font-weight:800;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.edit-amt-card .eac-btn.house{background:linear-gradient(135deg,rgba(124,77,255,.9),rgba(99,102,241,.9));color:#fff}
+.edit-amt-card .eac-btn.car{background:linear-gradient(135deg,rgba(249,168,37,.9),rgba(239,108,0,.85));color:#fff}
 .edit-amt-card .eac-note{font-size:10px;color:var(--TXT3);margin-top:8px;line-height:1.5}
+body.light .edit-amt-card input{background:#f5f5f5;color:#1a1a2e;border-color:#ddd}
+body.light .edit-amt-card input::placeholder{color:#aaa}
 .gauge-wrap{display:flex;flex-direction:column;gap:12px;padding:4px 0}
 .gauge-item{text-align:center}
 .gauge-lbl{font-size:10px;color:var(--TXT3);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
@@ -685,7 +687,24 @@ body::after{
     </div>
 
     <div class="sec-lbl">Savings Growth Chart</div>
-    <div class="chart-card glass"><div class="chart-title">House Fund vs Car Fund vs ₹1 Cr Target</div><div class="chart-wrap tall"><canvas id="ch-goals"></canvas></div></div>
+    <div class="chart-card glass">
+      <div class="chart-title">🏠 House Fund vs 🚗 Car Fund — Cumulative Progress</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:100px;background:rgba(179,136,255,.12);border:1px solid rgba(179,136,255,.3);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px">House Saved</div>
+          <div style="font-size:16px;font-weight:800;color:#b388ff;margin-top:4px" id="chart-h-total">₹0</div>
+        </div>
+        <div style="flex:1;min-width:100px;background:rgba(249,168,37,.12);border:1px solid rgba(249,168,37,.3);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px">Car Saved</div>
+          <div style="font-size:16px;font-weight:800;color:var(--GOLD);margin-top:4px" id="chart-c-total">₹0</div>
+        </div>
+        <div style="flex:1;min-width:100px;background:rgba(239,83,80,.1);border:1px solid rgba(239,83,80,.2);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:var(--TXT3);text-transform:uppercase;letter-spacing:.5px">House Target</div>
+          <div style="font-size:16px;font-weight:800;color:#ef9a9a;margin-top:4px">₹1 Cr</div>
+        </div>
+      </div>
+      <div class="chart-wrap tall"><canvas id="ch-goals"></canvas></div>
+    </div>
   </div>
 </div>
 
@@ -1175,19 +1194,43 @@ function drawGoalCharts(){
   set('gauge-c-pct',cp.toFixed(1)+'%');
   set('gauge-c-saved','Saved: '+fmt(cs));
   set('gauge-c-rem',ct>0?'Remaining: '+fmt(Math.max(0,ct-cs)):'Target not set');
-  // Line chart
-  const labels=[],hC=[],cC=[];let hR=0,cR=0;
+  // Bar chart — monthly contributions from entries
+  const labels=[],hBar=[],cBar=[];
   for(let y=2026;y<=2028;y++)for(let m=0;m<12;m++){
-    labels.push(MNS[m]+"'"+String(y).slice(2));let hs=0,cs=0;
-    Object.values(getTxns(y,m)).forEach(t=>{if(t.type==='sav'){if(t.cat&&t.cat.includes('House'))hs+=t.amount;if(t.cat&&t.cat.includes('Car'))cs+=t.amount;}});
-    hR+=hs;cR+=cs;hC.push(hR);cC.push(cR);
+    labels.push(MNS[m]+"'"+String(y).slice(2));
+    let hs=0,cs=0;
+    Object.values(getTxns(y,m)).forEach(t=>{
+      if(t.type==='sav'){
+        if(t.cat&&t.cat.includes('House'))hs+=t.amount;
+        if(t.cat&&t.cat.includes('Car'))cs+=t.amount;
+      }
+    });
+    hBar.push(hs);cBar.push(cs);
   }
-  const goalLine=Array(labels.length).fill(g.houseTarget||10000000);
-  mkChart('ch-goals','line',labels,[
-    {label:'House Fund',data:hC,borderColor:'#b388ff',backgroundColor:'rgba(179,136,255,.1)',tension:.4,fill:true,borderWidth:2,pointRadius:0},
-    {label:'Car Fund',data:cC,borderColor:'#f9a825',backgroundColor:'rgba(249,168,37,.07)',tension:.4,fill:true,borderWidth:2,pointRadius:0},
-    {label:'House Target',data:goalLine,borderColor:'rgba(239,83,80,.4)',borderDash:[6,4],borderWidth:1,pointRadius:0,fill:false},
-  ],{plugins:{legend:{display:true}}});
+  // Cumulative line using total saved (manual + entries)
+  // Distribute manual savings evenly as a starting point in first bar
+  const hTotal=g.houseSaved||0, cTotal=g.carSaved||0;
+  const hEntTotal=hBar.reduce((a,b)=>a+b,0);
+  const cEntTotal=cBar.reduce((a,b)=>a+b,0);
+  // Cumulative arrays
+  const hCum=[],cCum=[];
+  let hR=Math.max(0,hTotal-hEntTotal),cR=Math.max(0,cTotal-cEntTotal);
+  for(let i=0;i<hBar.length;i++){hR+=hBar[i];cR+=cBar[i];hCum.push(hR);cCum.push(cR);}
+  const ht=g.houseTarget||10000000;
+  const goalLine=Array(labels.length).fill(ht);
+  // Update summary labels
+  const el1=document.getElementById('chart-h-total');if(el1)el1.textContent=fmt(hTotal);
+  const el2=document.getElementById('chart-c-total');if(el2)el2.textContent=fmt(cTotal);
+  mkChart('ch-goals','bar',labels,[
+    {label:'House Savings',data:hBar,backgroundColor:'rgba(179,136,255,0.65)',borderRadius:3,borderSkipped:false},
+    {label:'Car Savings',data:cBar,backgroundColor:'rgba(249,168,37,0.65)',borderRadius:3,borderSkipped:false},
+  ],{
+    plugins:{legend:{display:true}},
+    scales:{
+      x:{stacked:false,ticks:{color:'rgba(255,255,255,.4)',font:{size:8},maxRotation:45},grid:{color:'rgba(255,255,255,.04)'}},
+      y:{ticks:{color:'rgba(255,255,255,.4)',font:{size:9},callback:n=>n>=100000?'₹'+(n/100000).toFixed(0)+'L':n>=1000?'₹'+(n/1000).toFixed(0)+'K':'₹'+n},grid:{color:'rgba(255,255,255,.05)'}},
+    },
+  });
 }
 function addGoal(which){
   const inp=document.getElementById(which==='house'?'h-add-inp':'c-add-inp');
