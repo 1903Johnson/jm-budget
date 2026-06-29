@@ -14,8 +14,7 @@
 <meta http-equiv="Pragma" content="no-cache"/>
 <meta http-equiv="Expires" content="0"/>
 <meta name="app-version" content="4.1"/>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
 <title>Johnson &amp; Melba — Family Budget</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
@@ -868,9 +867,9 @@ body.light .edit-amt-card input::placeholder{color:#aaa}
       <div class="step"><div class="stepn">3</div><div>Realtime Database → Create → Start in <strong>test mode</strong></div></div>
       <div class="step"><div class="stepn">4</div><div>Paste below → tap Connect</div></div>
       <div class="cfg-f"><label>API Key</label><input id="cak" value="AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY"/></div>
-      <div class="cfg-f"><label>Auth Domain</label><input id="cad" value="jmbudget-be846.firebaseapp.com"/></div>
-      <div class="cfg-f"><label>Database URL</label><input id="cdu" value="https://jmbudget-be846-default-rtdb.firebaseio.com"/></div>
-      <div class="cfg-f"><label>Project ID</label><input id="cpi" value="jmbudget-be846"/></div>
+      <div class="cfg-f"><label>Auth Domain</label><input id="cad" value="jm-project-new.firebaseapp.com"/></div>
+      <div class="cfg-f"><label>Database URL</label><input id="cdu" value="https://jm-project-new-default-rtdb.firebaseio.com"/></div>
+      <div class="cfg-f"><label>Project ID</label><input id="cpi" value="jm-project-new"/></div>
       <div class="cfg-f"><label>App ID</label><input id="cai" value="1:765462801827:web:72ada08c6f577983793e16"/></div>
       <button class="fbbtn" onclick="connectFB()">🔥 Connect Firebase</button>
       <div class="fb-status" id="fb-status"></div>
@@ -1071,7 +1070,7 @@ function loadFB(cfg){
       try{
         if(!firebase.apps.length)firebase.initializeApp(cfg);
         fbDB=firebase.database();setSdot('sync');
-        firebase.database().ref('jmbudget').on('value',snap=>{
+        firebase.database().ref('jm-project-new').on('value',snap=>{
           const d=snap.val();if(d){LD=d;localStorage.setItem('jmD',JSON.stringify(LD));}
           setSdot('on');setFbSt('✅ Connected — live sync active');refreshAll();
         },err=>{setSdot('off');setFbSt('❌ '+err.message);});
@@ -1079,8 +1078,8 @@ function loadFB(cfg){
     });
   });
 }
-function fbSet(path,data){setLP(path,data);save();if(fbDB){setSdot('sync');fbDB.ref('jmbudget/'+path).set(data).then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
-function fbDel(path){delLP(path);save();if(fbDB){fbDB.ref('jmbudget/'+path).remove().then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
+function fbSet(path,data){setLP(path,data);save();if(fbDB){setSdot('sync');fbDB.ref('jm-project-new/'+path).set(data).then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
+function fbDel(path){delLP(path);save();if(fbDB){fbDB.ref('jm-project-new/'+path).remove().then(()=>setSdot('on')).catch(()=>setSdot('off'));}}
 function setLP(path,data){const p=path.split('/');let o=LD;for(let i=0;i<p.length-1;i++){if(!o[p[i]])o[p[i]]={};o=o[p[i]];}o[p[p.length-1]]=data;}
 function delLP(path){const p=path.split('/');let o=LD;try{for(let i=0;i<p.length-1;i++)o=o[p[i]];delete o[p[p.length-1]];}catch(e){}}
 
@@ -1665,7 +1664,7 @@ function exportData(){
 function clearCurrentMonth(){
   const now=new Date();if(!confirm('Delete ALL entries for '+MN[now.getMonth()]+' '+now.getFullYear()+'?'))return;
   const key=mkey(now.getFullYear(),now.getMonth());
-  if(fbDB)fbDB.ref('jmbudget/'+key+'/transactions').remove();
+  if(fbDB)fbDB.ref('jm-project-new/'+key+'/transactions').remove();
   if(LD[key])delete LD[key].transactions;save();renderHome();toast('🗑 Month cleared');
 }
 function togglePrivacy(){
@@ -1767,11 +1766,14 @@ document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.
 
   // Auto-connect Firebase with pre-configured credentials
   const DEFAULT_FB = {
-    apiKey:      "AIzaSyCzEEnLX3rdzDrLm2iJ0-DmBMwJrWDFcjY",
-    authDomain:  "jmbudget-be846.firebaseapp.com",
-    databaseURL: "https://jmbudget-be846-default-rtdb.firebaseio.com",
-    projectId:   "jmbudget-be846",
-    appId:       "1:765462801827:web:72ada08c6f577983793e16",
+    apiKey:            "AIzaSyCsPws12ktlKpBGeAT4lTOWcy0Uhkk1WLU",
+    authDomain:        "jm-project-new.firebaseapp.com",
+    databaseURL:       "https://jm-project-new-default-rtdb.firebaseio.com",
+    projectId:         "jm-project-new",
+    storageBucket:     "jm-project-new.firebasestorage.app",
+    messagingSenderId: "326705091870",
+    appId:             "1:326705091870:web:1fac308e2712e78500250f",
+    measurementId:     "G-6818DMQ0HE",
   };
   localStorage.setItem('jmFB', JSON.stringify(DEFAULT_FB));
   loadFB(DEFAULT_FB);
